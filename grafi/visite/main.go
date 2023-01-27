@@ -15,6 +15,8 @@ type Grafo struct {
 	innerGrafo map[*Vertice][]*Vertice
 }
 
+type 
+
 func main() {
 	fmt.Println("prova")
 	innerGrafo := make(map[*Vertice][]*Vertice)
@@ -36,6 +38,8 @@ func main() {
 	visitati := make(map[*Vertice]bool)
 	g.visitaInProfondita(d, visitati)
 }
+
+func 
 
 func (g *Grafo) visitaInProfondita(ver *Vertice, visitati map[*Vertice]bool) {
 	visitati[ver] = true
