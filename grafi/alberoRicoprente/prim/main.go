@@ -1,8 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"math/rand"
+	"os"
 	"sort"
+	"strings"
+	"time"
 )
 
 // grafo non direzionato
@@ -18,20 +23,33 @@ type Arco struct {
 }
 
 func main() {
-	g := newGrafo()
-	fmt.Println(g)
-	g.aggiungi("a", "d", 4)
-	g.aggiungi("a", "b", 1)
-	g.aggiungi("d", "b", 4)
-	g.aggiungi("a", "e", 3)
-	g.aggiungi("d", "e", 4)
-	g.aggiungi("e", "b", 2)
-	g.aggiungi("e", "c", 4)
-	g.aggiungi("c", "f", 5)
-	g.aggiungi("e", "f", 7)
+	/*
+		g := newGrafo()
+		fmt.Println(g)
+		g.aggiungi("a", "d", 4)
+		g.aggiungi("a", "b", 1)
+		g.aggiungi("d", "b", 4)
+		g.aggiungi("a", "e", 3)
+		g.aggiungi("d", "e", 4)
+		g.aggiungi("e", "b", 2)
+		g.aggiungi("e", "c", 4)
+		g.aggiungi("c", "f", 5)
+		g.aggiungi("e", "f", 7)
+	*/
+	g := parseInput()
+	fmt.Println("numero vertici: ", len(g.innerGrafo))
+	_ = g.getAlberoRicoprente()
+}
 
-	alberoRicoprente := g.getAlberoRicoprente()
-	fmt.Println(alberoRicoprente.innerGrafo)
+func parseInput() *Grafo {
+	g := newGrafo()
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		rand.Seed(time.Now().UnixNano())
+		splittedString := strings.Split(scanner.Text(), ",")
+		g.aggiungi(splittedString[0], splittedString[1], rand.Intn(100))
+	}
+	return g
 }
 
 func printList(archiOrdinatiHead *Arco) {
@@ -57,8 +75,9 @@ func (g *Grafo) getAlberoRicoprente() *Grafo {
 
 	trovati[archiOrdinatiHead.x] = true
 
+	fmt.Println("archiOrdinati size: ", countListSize(archiOrdinatiHead))
 	var azione bool = true
-	//porcheria che andrebbe fatta con una linkedlist
+	//porcheria ma fatta con una linkedlist
 	var count int = 0
 	for azione {
 		azione = false
@@ -67,9 +86,9 @@ func (g *Grafo) getAlberoRicoprente() *Grafo {
 		i := 0
 		for curArco != nil {
 			count++
-			fmt.Println("archiOrdinati size: ", countListSize(archiOrdinatiHead))
-			fmt.Println("trovati: ", trovati)
-			fmt.Println("albero: ", albero.innerGrafo)
+			//fmt.Println("archiOrdinati size: ", countListSize(archiOrdinatiHead))
+			//fmt.Println("trovati: ", trovati)
+			//fmt.Println("albero: ", albero.innerGrafo)
 			if trovati[curArco.x] && trovati[curArco.y] {
 				azione = true
 				if prevArco == nil {
