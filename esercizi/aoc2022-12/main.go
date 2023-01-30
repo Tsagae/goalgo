@@ -18,11 +18,15 @@ func main() {
 	points := trovaStart(grid)
 	var min int = math.MaxInt
 	for _, v := range points {
-		curVal := bfsCostoCammino(g, v)
+		curVal := bfsCostoCammino(grid, v)
+		if curVal == -1 {
+			continue
+		}
 		if curVal < min {
 			min = curVal
 		}
 	}
+	fmt.Println("min: ", min)
 }
 
 func trovaStart(grid [][]int) []*Punto {
@@ -34,6 +38,7 @@ func trovaStart(grid [][]int) []*Punto {
 			}
 		}
 	}
+	return punti
 }
 
 func bfsCostoCammino(grid [][]int, start *Punto) int {
