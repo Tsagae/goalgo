@@ -13,13 +13,13 @@ type Punto struct {
 }
 
 func main() {
-	g, s := getInput()
-	printGrid(g)
+	grid, _ := getInput()
+	printGrid(grid)
 	points := trovaStart(grid)
 	var min int = math.MaxInt
 	for _, v := range points {
-		curVal = bfsCostoCammino(g, v)
-		if(curVal < min){
+		curVal := bfsCostoCammino(g, v)
+		if curVal < min {
 			min = curVal
 		}
 	}
@@ -30,7 +30,7 @@ func trovaStart(grid [][]int) []*Punto {
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[i]); j++ {
 			if grid[i][j] == 1 {
-				punti = append(punti, &{i, j})
+				punti = append(punti, &Punto{i, j})
 			}
 		}
 	}
