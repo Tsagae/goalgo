@@ -36,7 +36,24 @@ func main() {
 		g.aggiungi("c", "f", 5)
 		g.aggiungi("e", "f", 7)
 	*/
-	g := parseInput()
+	//g := parseInput()
+	g := newGrafo()
+	rand.Seed(time.Now().UnixNano())
+	count := 10000
+	maxPeso := 100
+	for i := 0; i < count; i++ {
+		x := rand.Intn(count)
+		y := rand.Intn(count)
+		peso := rand.Intn(maxPeso)
+		g.aggiungi(fmt.Sprintf("%d", x), fmt.Sprintf("%d", y), peso)
+	}
+	/*
+		g := newGrafo()c
+		g.aggiungi("a", "b", 1)
+		g.aggiungi("a", "d", 3)
+		g.aggiungi("d", "c", 1)
+		g.aggiungi("b", "c", 4)
+	*/
 	fmt.Println("numero vertici: ", len(g.innerGrafo))
 	_ = g.getAlberoRicoprente()
 }
@@ -104,7 +121,6 @@ func (g *Grafo) getAlberoRicoprente() *Grafo {
 				albero.aggiungi(curArco.x, curArco.y, curArco.peso)
 				if prevArco == nil {
 					archiOrdinatiHead = archiOrdinatiHead.next
-					break
 				} else {
 					prevArco.next = curArco.next
 				}
