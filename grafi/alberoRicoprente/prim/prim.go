@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Grafo non orientato, ogni arco è rappresentato due volte A->B [2] | B->A [2]
 type Grafo struct {
 	innerGrafo map[string]map[string]int
 }
@@ -37,10 +38,37 @@ func main() {
 
 func (g *Grafo) getAlberoRicoprente() *Grafo {
 	albero := newGrafo()
+	var archi []Arco = make([]Arco, 0, len(g.innerGrafo)*2)
+	for k, v := range g.innerGrafo {
 
+	}
 	return albero
 }
 
+func newGrafo() *Grafo {
+	g := new(Grafo)
+	g.innerGrafo = make(map[string]map[string]int)
+	return g
+}
+
+func (g *Grafo) aggiungi(from string, to string, peso int) {
+	if g.innerGrafo[from] == nil {
+		g.innerGrafo[from] = make(map[string]int)
+	}
+	g.innerGrafo[from][to] = peso
+
+	if g.innerGrafo[to] == nil {
+		g.innerGrafo[to] = make(map[string]int)
+	}
+	g.innerGrafo[to][from] = peso
+}
+
+func (g *Grafo) rimuovi(from string, to string) {
+	delete(g.innerGrafo[from], to)
+	delete(g.innerGrafo[to], from)
+}
+
+// HEAP
 func (h *MinHeap) getIndexFigli(index int) (int, int) {
 	sx := 2*index + 1
 	dx := 2*index + 2
@@ -111,27 +139,4 @@ func (h *MinHeap) sistemaDalBasso(figlio int) {
 		heap[padre], heap[figlio] = heap[figlio], heap[padre]
 		figlio = padre
 	}
-}
-
-func newGrafo() *Grafo {
-	g := new(Grafo)
-	g.innerGrafo = make(map[string]map[string]int)
-	return g
-}
-
-func (g *Grafo) aggiungi(from string, to string, peso int) {
-	if g.innerGrafo[from] == nil {
-		g.innerGrafo[from] = make(map[string]int)
-	}
-	g.innerGrafo[from][to] = peso
-
-	if g.innerGrafo[to] == nil {
-		g.innerGrafo[to] = make(map[string]int)
-	}
-	g.innerGrafo[to][from] = peso
-}
-
-func (g *Grafo) rimuovi(from string, to string) {
-	delete(g.innerGrafo[from], to)
-	delete(g.innerGrafo[to], from)
 }
