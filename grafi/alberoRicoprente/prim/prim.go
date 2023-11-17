@@ -1,4 +1,6 @@
-package main
+package prim
+
+/*
 
 import (
 	"fmt"
@@ -140,3 +142,4 @@ func (h *MinHeap) sistemaDalBasso(figlio int) {
 		figlio = padre
 	}
 }
+*/

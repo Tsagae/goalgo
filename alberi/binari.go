@@ -1,4 +1,4 @@
-package main
+package alberi
 
 import "fmt"
 
@@ -20,6 +20,7 @@ type Stack struct {
 	innerStack []*Nodo
 }
 
+/*
 func main() {
 	fmt.Println("Prova")
 	albero := new(Albero)
@@ -42,6 +43,7 @@ func main() {
 	fmt.Println("\n--------------------")
 
 }
+*/
 
 func creaNodo(val int, sx *Nodo, dx *Nodo) *Nodo {
 	newNodo := new(Nodo)

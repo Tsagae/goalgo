@@ -1,7 +1,6 @@
-package main
+package kruskal
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -15,6 +14,7 @@ type Arco struct {
 	peso int
 }
 
+/*
 func main() {
 	g := newGrafo()
 	fmt.Println(g)
@@ -30,6 +30,7 @@ func main() {
 	alberoRicoprente := g.getAlberoRicoprente()
 	fmt.Println(alberoRicoprente.innerGrafo)
 }
+*/
 
 func (g *Grafo) getAlberoRicoprente() *Grafo {
 	listaArchi := g.getListaArchi()

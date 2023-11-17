@@ -1,7 +1,8 @@
-package main
+package alberi
 
 import "fmt"
 
+/*
 func main() {
 	arr := []int{7, 9, 12, 2, 15, 25, 3, 14, 10}
 	//arr2 := []int{7, 9, 12, 6, 5, 3, 1}
@@ -12,6 +13,7 @@ func main() {
 	arr = rimuovi(arr, 16)
 	fmt.Println(arr)
 }
+*/
 
 func inserisci(arr *[]int, chiave int) {
 	//aggiunge l'emento come ultima foglia e riordina dal basso

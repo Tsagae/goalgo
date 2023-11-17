@@ -1,7 +1,9 @@
-package main
+package floydwarshall
 
-import "fmt"
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 type Grafo struct {
 	innerGrafo [][]int
@@ -13,6 +15,7 @@ type Arco struct {
 	peso int
 }
 
+/*
 func main() {
 	fmt.Println("prova")
 	g := newGrafo(4, []Arco{Arco{1, 0, 4}, Arco{0, 2, -2}, Arco{1, 2, 3}, Arco{2, 3, 2}, Arco{3, 1, -1}})
@@ -21,6 +24,7 @@ func main() {
 	stampaMatriceQuadrata(cammini)
 
 }
+*/
 
 func (g *Grafo) floydWarshall() [][]int {
 	mat := g.inizializzaMatrice()

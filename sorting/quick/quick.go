@@ -1,12 +1,14 @@
-package main
+package quick
 
 import "fmt"
 
-func main() {
-	var a []int = []int{7, 10, 4, 2, 5, 11}
-	a = quickSort(a)
-	fmt.Println(a)
-}
+/*
+	func main() {
+		var a []int = []int{7, 10, 4, 2, 5, 11}
+		a = quickSort(a)
+		fmt.Println(a)
+	}
+*/
 
 func quickSort(arr []int) []int {
 	// caso base <= 1 elementi soluzione immediata

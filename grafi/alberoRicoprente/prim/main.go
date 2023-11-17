@@ -1,5 +1,6 @@
-package main
+package prim
 
+/*
 import (
 	"bufio"
 	"fmt"
@@ -23,19 +24,19 @@ type Arco struct {
 }
 
 func main() {
-	/*
-		g := newGrafo()
-		fmt.Println(g)
-		g.aggiungi("a", "d", 4)
-		g.aggiungi("a", "b", 1)
-		g.aggiungi("d", "b", 4)
-		g.aggiungi("a", "e", 3)
-		g.aggiungi("d", "e", 4)
-		g.aggiungi("e", "b", 2)
-		g.aggiungi("e", "c", 4)
-		g.aggiungi("c", "f", 5)
-		g.aggiungi("e", "f", 7)
-	*/
+
+	//	g := newGrafo()
+	//	fmt.Println(g)
+	//	g.aggiungi("a", "d", 4)
+	//	g.aggiungi("a", "b", 1)
+	//	g.aggiungi("d", "b", 4)
+	//	g.aggiungi("a", "e", 3)
+	//	g.aggiungi("d", "e", 4)
+	//	g.aggiungi("e", "b", 2)
+	//	g.aggiungi("e", "c", 4)
+	//	g.aggiungi("c", "f", 5)
+	//	g.aggiungi("e", "f", 7)
+
 	g := parseInput()
 	fmt.Println("numero vertici: ", len(g.innerGrafo))
 	_ = g.getAlberoRicoprente()
@@ -163,3 +164,4 @@ func (g *Grafo) rimuovi(from string, to string) {
 	delete(g.innerGrafo[from], to)
 	delete(g.innerGrafo[to], from)
 }
+*/
