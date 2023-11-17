@@ -1,4 +1,4 @@
-package main
+package linkedlist
 
 import "fmt"
 
@@ -11,25 +11,26 @@ type Nodo struct {
 	next *Nodo
 }
 
-func main() {
-	fmt.Println("prova")
-	lista := new(Lista)
-	fmt.Println(lista.toString())
+/*
+	func main() {
+		fmt.Println("prova")
+		lista := new(Lista)
+		fmt.Println(lista.toString())
 
-	for i := 5; i < 10; i++ {
-		lista.add(i)
-	}
-	fmt.Println(lista.toString())
-	lista.insert(2, creaNodo(0, nil))
-	fmt.Println(lista.toString())
-	nodo := lista.trovaValore(5)
-	fmt.Println("valore: ", nodo.val)
-	fmt.Println(lista.toString())
-	lista.remove(2)
-	fmt.Println(lista.toString())
+		for i := 5; i < 10; i++ {
+			lista.add(i)
+		}
+		fmt.Println(lista.toString())
+		lista.insert(2, creaNodo(0, nil))
+		fmt.Println(lista.toString())
+		nodo := lista.trovaValore(5)
+		fmt.Println("valore: ", nodo.val)
+		fmt.Println(lista.toString())
+		lista.remove(2)
+		fmt.Println(lista.toString())
 
 }
-
+*/
 func (lista *Lista) toString() string {
 	outStr := ""
 	currentNodo := lista.testa

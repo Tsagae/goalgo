@@ -1,13 +1,13 @@
-package main
+package primopt
 
 import (
 	"bufio"
 	"fmt"
-	"math"
+	"math/rand"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
+	"time"
 )
 
 // grafo non orientato
@@ -22,50 +22,50 @@ type Arco struct {
 	next *Arco
 }
 
-type Punto struct {
-	x int
-	y int
-}
-
+/*
 func main() {
-	/*
-		g := newGrafo()
-		fmt.Println(g)
-		g.aggiungi("a", "d", 4)
-		g.aggiungi("a", "b", 1)
-		g.aggiungi("d", "b", 4)
-		g.aggiungi("a", "e", 3)
-		g.aggiungi("d", "e", 4)
-		g.aggiungi("e", "b", 2)
-		g.aggiungi("e", "c", 4)
-		g.aggiungi("c", "f", 5)
-		g.aggiungi("e", "f", 7)
-	*/
-	g := parseInput()
-	fmt.Println("numero vertici: ", len(g.innerGrafo))
-	_, pesoTot := g.getAlberoRicoprente()
-	fmt.Println("peso totale: ", pesoTot)
-}
 
+		//	g := newGrafo()
+		//	fmt.Println(g)
+		//	g.aggiungi("a", "d", 4)
+		//	g.aggiungi("a", "b", 1)
+		//	g.aggiungi("d", "b", 4)
+		//	g.aggiungi("a", "e", 3)
+		//	g.aggiungi("d", "e", 4)
+		//	g.aggiungi("e", "b", 2)
+		//	g.aggiungi("e", "c", 4)
+		//	g.aggiungi("c", "f", 5)
+		//	g.aggiungi("e", "f", 7)
+
+		//g := parseInput()
+		g := newGrafo()
+		rand.Seed(time.Now().UnixNano())
+		count := 10000
+		maxPeso := 100
+		for i := 0; i < count; i++ {
+			x := rand.Intn(count)
+			y := rand.Intn(count)
+			peso := rand.Intn(maxPeso)
+			g.aggiungi(fmt.Sprintf("%d", x), fmt.Sprintf("%d", y), peso)
+		}
+
+		//	g := newGrafo()c
+		//	g.aggiungi("a", "b", 1)
+		//	g.aggiungi("a", "d", 3)
+		//	g.aggiungi("d", "c", 1)
+		//	g.aggiungi("b", "c", 4)
+
+		fmt.Println("numero vertici: ", len(g.innerGrafo))
+		_ = g.getAlberoRicoprente()
+	}
+*/
 func parseInput() *Grafo {
 	g := newGrafo()
 	scanner := bufio.NewScanner(os.Stdin)
-	tempInput := make([]*Punto, 0, 5)
 	for scanner.Scan() {
-		splittedString := strings.Split(scanner.Text(), " ")
-		x, _ := strconv.Atoi(splittedString[0])
-		y, _ := strconv.Atoi(splittedString[1])
-		tempInput = append(tempInput, &Punto{x, y})
-	}
-
-	for i := 0; i < len(tempInput); i++ {
-		for j := 0; j < len(tempInput); j++ {
-			if i != j {
-				fromName := fmt.Sprintf("%d,%d", tempInput[i].x, tempInput[i].y)
-				toName := fmt.Sprintf("%d,%d", tempInput[j].x, tempInput[j].y)
-				g.aggiungi(fromName, toName, int(math.Abs(float64(tempInput[i].x-tempInput[j].x))+math.Abs(float64(tempInput[i].y-tempInput[j].y))))
-			}
-		}
+		rand.Seed(time.Now().UnixNano())
+		splittedString := strings.Split(scanner.Text(), ",")
+		g.aggiungi(splittedString[0], splittedString[1], rand.Intn(100))
 	}
 	return g
 }
@@ -86,11 +86,10 @@ func countListSize(archiOrdinatiHead *Arco) int {
 	return i
 }
 
-func (g *Grafo) getAlberoRicoprente() (*Grafo, int) {
+func (g *Grafo) getAlberoRicoprente() *Grafo {
 	albero := newGrafo()
 	trovati := make(map[string]bool)
 	archiOrdinatiHead := g.creaListaDiArchi()
-	var pesoTotale int = 0
 
 	trovati[archiOrdinatiHead.x] = true
 
@@ -116,12 +115,11 @@ func (g *Grafo) getAlberoRicoprente() (*Grafo, int) {
 				} else {
 					prevArco.next = curArco.next
 				}
-			} else if (trovati[curArco.x] || trovati[curArco.y]) || !(trovati[curArco.x] || trovati[curArco.y]) {
+			} else if trovati[curArco.x] || trovati[curArco.y] {
 				azione = true
 				trovati[curArco.x] = true
 				trovati[curArco.y] = true
 				albero.aggiungi(curArco.x, curArco.y, curArco.peso)
-				pesoTotale += curArco.peso
 				if prevArco == nil {
 					archiOrdinatiHead = archiOrdinatiHead.next
 				} else {
@@ -139,7 +137,7 @@ func (g *Grafo) getAlberoRicoprente() (*Grafo, int) {
 		}
 	}
 	fmt.Println("count: ", count)
-	return albero, pesoTotale
+	return albero
 }
 
 func (g *Grafo) creaListaDiArchi() *Arco {

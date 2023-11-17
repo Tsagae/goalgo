@@ -1,9 +1,8 @@
-package main
+package aoc202212
 
 import (
 	"bufio"
 	"fmt"
-	"math"
 	"os"
 )
 
@@ -12,6 +11,7 @@ type Punto struct {
 	y int
 }
 
+/*
 func main() {
 	grid, _ := getInput()
 	printGrid(grid)
@@ -28,6 +28,7 @@ func main() {
 	}
 	fmt.Println("min: ", min)
 }
+*/
 
 func trovaStart(grid [][]int) []*Punto {
 	punti := make([]*Punto, 0)

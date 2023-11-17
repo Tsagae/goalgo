@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package dijkstra
 
 type Grafo struct {
 	innerGrafo map[string][]Arco
@@ -11,6 +9,7 @@ type Arco struct {
 	peso int
 }
 
+/*
 func main() {
 	fmt.Println("prova")
 	g := newGrafo()
@@ -26,6 +25,7 @@ func main() {
 	fmt.Println(g)
 	fmt.Println(g.dijkstra("f"))
 }
+*/
 
 func (g *Grafo) dijkstra(start string) map[string]int {
 	distanze := make(map[string]int)

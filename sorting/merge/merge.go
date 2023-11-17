@@ -1,12 +1,12 @@
-package main
+package merge
 
-import "fmt"
-
-func main() {
-	var a []int = []int{7, 10, 4, 2, 5, 11}
-	a = mergeSort(a)
-	fmt.Println(a)
-}
+/*
+	func main() {
+		var a []int = []int{7, 10, 4, 2, 5, 11}
+		a = mergeSort(a)
+		fmt.Println(a)
+	}
+*/
 
 func mergeSort(arr []int) []int {
 	n := len(arr)

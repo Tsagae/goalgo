@@ -1,7 +1,6 @@
-package main
+package simplesorts
 
-import "fmt"
-
+/*
 func main() {
 	var a []int = []int{11, 6, 10, 1, 4}
 	fmt.Println(a)
@@ -9,6 +8,7 @@ func main() {
 	fmt.Println(a)
 
 }
+*/
 
 func selectionSort(arr []int) []int {
 	//Prendo il minore e lo scambio con arr[i]
