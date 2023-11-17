@@ -1,17 +1,21 @@
 package structs
 
+import "fmt"
+
 type Stack[T any] struct {
 	innerStack []T
 }
 
 func NewStack[T any]() Stack[T] {
-	var stack Stack[T]
-	stack.innerStack = make([]T, 0)
-	return stack
+	return Stack[T]{innerStack: make([]T, 0)}
 }
 
 func (stack *Stack[T]) Size() int {
 	return len(stack.innerStack)
+}
+
+func (stack *Stack[T]) IsEmpty() bool {
+	return stack.Size() == 0
 }
 
 func (stack *Stack[T]) Push(item T) {
@@ -26,4 +30,12 @@ func (stack *Stack[T]) Pop() T {
 
 func (stack *Stack[T]) Peek() T {
 	return stack.innerStack[stack.Size()-1]
+}
+
+func (stack *Stack[T]) ToString() string {
+	var outStr string = "| "
+	for _, v := range stack.innerStack {
+		outStr += fmt.Sprintf("%v ", v)
+	}
+	return outStr + "<- Top"
 }
