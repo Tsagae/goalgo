@@ -1,7 +1,6 @@
 package structs
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -19,7 +18,6 @@ func TestLinkedList(t *testing.T) {
 		t.Errorf("Incorrect size after Add")
 	}
 
-	fmt.Println(list.ToString())
 	list.Insert(2, 99)
 
 	if list.Get(2) != 99 {
