@@ -1,14 +1,9 @@
-package merge
+package sorting
 
-/*
-	func main() {
-		var a []int = []int{7, 10, 4, 2, 5, 11}
-		a = mergeSort(a)
-		fmt.Println(a)
-	}
-*/
+import "cmp"
 
-func mergeSort(arr []int) []int {
+func mergeSort[T cmp.Ordered](arr []T) []T {
+	//TODO: change to in place implementation
 	n := len(arr)
 	if n > 1 {
 		m := n / 2
@@ -21,21 +16,19 @@ func mergeSort(arr []int) []int {
 	return arr
 }
 
-func pop(arr *[]int) int {
-	var toRet int = (*arr)[0]
-	*arr = (*arr)[1:]
-	return toRet
+func pop[T cmp.Ordered](arr []T) (T, []T) {
+	return arr[0], arr[1:]
 }
 
-func merge(arr1 []int, arr2 []int) []int {
+func merge[T cmp.Ordered](arr1 []T, arr2 []T) []T {
 	sumDim := len(arr1) + len(arr2)
-	res := make([]int, sumDim)
+	res := make([]T, sumDim)
 	i := 0
 	for ; len(arr1) != 0 && len(arr2) != 0; i++ {
 		if arr1[0] < arr2[0] {
-			res[i] = pop(&arr1)
+			res[i], arr1 = pop(arr1)
 		} else {
-			res[i] = pop(&arr2)
+			res[i], arr2 = pop(arr2)
 		}
 	}
 

@@ -1,6 +1,8 @@
-package heap
+package sorting
 
-func HeapSort(arr []int) {
+import "cmp"
+
+func HeapSort[T cmp.Ordered](arr []T) {
 	createHeap(arr)
 	for i := len(arr) - 1; i >= 0; i-- {
 		arr[0], arr[i] = arr[i], arr[0]
@@ -8,7 +10,8 @@ func HeapSort(arr []int) {
 	}
 }
 
-func reorderRootRecursive(heap []int, index int) {
+func reorderRootRecursive[T cmp.Ordered](heap []T, index int) {
+	//TODO: change to iterative implementation
 	//if thr root is smaller than the biggest of the two children
 	l, r := getIndexChildren(heap, index)
 	var maxIndex int
@@ -32,13 +35,13 @@ func reorderRootRecursive(heap []int, index int) {
 	}
 }
 
-func createHeap(arr []int) {
+func createHeap[T cmp.Ordered](arr []T) {
 	for i := len(arr) / 2; i >= 0; i-- {
 		reorderRootRecursive(arr, i)
 	}
 }
 
-func getIndexChildren(arr []int, index int) (int, int) {
+func getIndexChildren[T cmp.Ordered](arr []T, index int) (int, int) {
 	l := index*2 + 1
 	r := index*2 + 2
 	if l >= len(arr) {

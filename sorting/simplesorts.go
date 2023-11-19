@@ -1,17 +1,9 @@
-package simplesorts
+package sorting
 
-/*
-func main() {
-	var a []int = []int{11, 6, 10, 1, 4}
-	fmt.Println(a)
-	bubbleSort(a)
-	fmt.Println(a)
+import "cmp"
 
-}
-*/
-
-func selectionSort(arr []int) []int {
-	//Prendo il minore e lo scambio con arr[i]
+func SelectionSort[T cmp.Ordered](arr []T) {
+	//Take the smallest and swap with[i]
 	var minI int
 	for i := 0; i < len(arr); i++ {
 		minI = i
@@ -22,11 +14,10 @@ func selectionSort(arr []int) []int {
 		}
 		arr[minI], arr[i] = arr[i], arr[minI]
 	}
-	return arr
 }
 
-func insertionSort(arr []int) []int {
-	//da arr[0] a arr[i-1] è la parte ordinata
+func InsertionSort[T cmp.Ordered](arr []T) {
+	//From arr[0] to arr[i-1] is the sorted partition
 	for i := 1; i < len(arr); i++ {
 		for j := i; j > 0; j-- {
 			if arr[j] < arr[j-1] {
@@ -36,10 +27,9 @@ func insertionSort(arr []int) []int {
 			}
 		}
 	}
-	return arr
 }
 
-func bubbleSort(arr []int) []int {
+func BubbleSort[T cmp.Ordered](arr []T) {
 	for i := 0; i < len(arr); i++ {
 		for j := 0; j < len(arr)-1; j++ {
 			if arr[j] > arr[j+1] {
@@ -47,5 +37,4 @@ func bubbleSort(arr []int) []int {
 			}
 		}
 	}
-	return arr
 }
