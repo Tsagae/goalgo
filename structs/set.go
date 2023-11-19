@@ -5,6 +5,7 @@ type Set[T comparable] interface {
 	Put(T)
 	Remove(T)
 	Size() int
+	Items() []T
 }
 
 type MapSet[T comparable] struct {
@@ -33,6 +34,17 @@ func (m *MapSet[T]) Remove(item T) {
 
 func (m *MapSet[T]) Size() int {
 	return len(m.innerMap)
+}
+
+func (m *MapSet[T]) Items() []T {
+	keys := make([]T, len(m.innerMap))
+
+	i := 0
+	for k := range m.innerMap {
+		keys[i] = k
+		i++
+	}
+	return keys
 }
 
 // Merges two sets, returns the new set. The two original sets are modified in the process of merging them
