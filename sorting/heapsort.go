@@ -1,6 +1,6 @@
-package heap
+package sorting
 
-func HeapSort(arr []int) {
+func HeapSort(arr []int) { //TODO: change int to comparable
 	createHeap(arr)
 	for i := len(arr) - 1; i >= 0; i-- {
 		arr[0], arr[i] = arr[i], arr[0]
