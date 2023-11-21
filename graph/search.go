@@ -1,4 +1,4 @@
-package visite
+package graph
 
 import "fmt"
 
