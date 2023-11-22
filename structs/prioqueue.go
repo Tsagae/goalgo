@@ -22,6 +22,10 @@ func (q *PrioQueue[T, P]) Size() int {
 	return len(q.heap)
 }
 
+func (q *PrioQueue[T, P]) IsEmpty() bool {
+	return len(q.heap) == 0
+}
+
 func (q *PrioQueue[T, P]) Insert(item T, priority P) {
 	//adds the item as the last leaf and reorders from bottom
 	q.heap = append(q.heap, prioQueueItem[T, P]{item: item, priority: priority})
