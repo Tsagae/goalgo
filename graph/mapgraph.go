@@ -22,8 +22,8 @@ type MapGraphEdge[T comparable, W Weight] struct {
 
 // EdgeTuple Used only for constructing the graph
 type EdgeTuple[T comparable, W Weight] struct {
-	labelTo T
-	weight  W
+	LabelTo T
+	Weight  W
 }
 
 // NewMapGraph Constructor
@@ -37,7 +37,7 @@ func NewMapGraph[T comparable, W Weight]() MapGraph[T, W] {
 
 // AddNode adds a node to the graph. Does nothing if the node is already present
 func (g *MapGraph[T, W]) AddNode(label T) {
-	if _, ok := g.innerMap[label]; !ok {
+	if _, ok := g.innerMap[label]; ok {
 		return
 	}
 	g.innerMap[label] = make([]MapGraphEdge[T, W], 0)
@@ -53,7 +53,7 @@ func (g *MapGraph[T, W]) RemoveNode(label T) {
 	panic("not implemented")
 }
 
-// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" already exists (weight is ignored in this case)
+// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" already exists (Weight is ignored in this case)
 func (g *MapGraph[T, W]) AddEdge(from T, to T, weight W) {
 	originalList := g.innerMap[from]
 	for _, v := range originalList {
@@ -72,7 +72,7 @@ func (g *MapGraph[T, W]) AddEdge(from T, to T, weight W) {
 
 func (g *MapGraph[T, W]) AddEdges(from T, tuples ...EdgeTuple[T, W]) {
 	for _, v := range tuples {
-		g.AddEdge(from, v.labelTo, v.weight)
+		g.AddEdge(from, v.LabelTo, v.Weight)
 	}
 }
 
