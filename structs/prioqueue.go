@@ -1,33 +1,39 @@
 package structs
 
+import "cmp"
+
 // Priority queue implemented with an heap. Lowest number -> highest priority
-type PrioQueue[T any] struct {
-	heap []prioQueueItem[T]
+type PrioQueue[T comparable, P cmp.Ordered] struct {
+	heap []prioQueueItem[T, P]
 }
 
-type prioQueueItem[T any] struct {
-	priority int
+type prioQueueItem[T comparable, P cmp.Ordered] struct {
+	priority P
 	item     T
 }
 
-func NewPrioQueue[T any]() PrioQueue[T] {
-	return PrioQueue[T]{heap: make([]prioQueueItem[T], 0)}
+func NewPrioQueue[T comparable, P cmp.Ordered]() PrioQueue[T, P] {
+	return PrioQueue[T, P]{heap: make([]prioQueueItem[T, P], 0)}
 }
 
 //size enqueue dequeue peek
 
-func (q *PrioQueue[T]) Size() int {
+func (q *PrioQueue[T, P]) Size() int {
 	return len(q.heap)
 }
 
-func (q *PrioQueue[T]) Insert(item T, priority int) {
+func (q *PrioQueue[T, P]) IsEmpty() bool {
+	return len(q.heap) == 0
+}
+
+func (q *PrioQueue[T, P]) Insert(item T, priority P) {
 	//adds the item as the last leaf and reorders from bottom
-	q.heap = append(q.heap, prioQueueItem[T]{item: item, priority: priority})
+	q.heap = append(q.heap, prioQueueItem[T, P]{item: item, priority: priority})
 	q.reorderFromBottom(q.Size() - 1)
 }
 
 // Removes and returns the item with the highest priority
-func (q *PrioQueue[T]) Dequeue() T {
+func (q *PrioQueue[T, P]) Dequeue() T {
 	itemToRet := q.heap[0].item
 	q.heap[0], q.heap[q.Size()-1] = q.heap[q.Size()-1], q.heap[0]
 	q.heap = q.heap[0 : q.Size()-1]
@@ -35,7 +41,7 @@ func (q *PrioQueue[T]) Dequeue() T {
 	return itemToRet
 }
 
-func (q *PrioQueue[T]) Remove(priority int) T {
+func (q *PrioQueue[T, P]) Remove(priority P) T {
 	//swaps the element with a certain priority with the last leaf, removes the last one and reorders
 	index := q.indexFromKey(priority)
 	itemToRet := q.heap[index].item
@@ -51,11 +57,34 @@ func (q *PrioQueue[T]) Remove(priority int) T {
 	return itemToRet
 }
 
-func (q *PrioQueue[T]) Peek() T {
+func (q *PrioQueue[T, P]) Peek() T {
 	return q.heap[0].item
 }
 
-func (q *PrioQueue[T]) reorderRootIterative(index int) {
+func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
+	itemIndex := -1
+	var foundItem *prioQueueItem[T, P]
+	for i := 0; i < len(q.heap); i++ {
+		if q.heap[i].item == item {
+			itemIndex = i
+			foundItem = &q.heap[i]
+			break
+		}
+	}
+	if itemIndex == -1 { //item not found
+		return
+	}
+	oldPriority := foundItem.priority
+	foundItem.priority = newPriority
+
+	if newPriority > oldPriority {
+		q.reorderRootIterative(itemIndex)
+	} else {
+		q.reorderFromBottom(itemIndex)
+	}
+}
+
+func (q *PrioQueue[T, P]) reorderRootIterative(index int) {
 	for {
 		//looking if the root is smaller than the smallest of the two children
 		l, r := q.getIndexChildren(index)
@@ -83,7 +112,7 @@ func (q *PrioQueue[T]) reorderRootIterative(index int) {
 	}
 }
 
-func (q *PrioQueue[T]) getIndexChildren(index int) (int, int) {
+func (q *PrioQueue[T, P]) getIndexChildren(index int) (int, int) {
 	l := index*2 + 1
 	r := index*2 + 2
 	if l >= len(q.heap) {
@@ -105,7 +134,7 @@ func getIndexParent(index int) int {
 	return index
 }
 
-func (q *PrioQueue[T]) reorderFromBottom(index int) {
+func (q *PrioQueue[T, P]) reorderFromBottom(index int) {
 	for {
 		var lowerIndex int = index
 		lowerIndex = getIndexParent(index)
@@ -121,9 +150,9 @@ func (q *PrioQueue[T]) reorderFromBottom(index int) {
 	}
 }
 
-func (q *PrioQueue[T]) indexFromKey(key int) int {
+func (q *PrioQueue[T, P]) indexFromKey(key P) int {
 	var i int
-	var v prioQueueItem[T]
+	var v prioQueueItem[T, P]
 	for i, v = range q.heap {
 		if v.priority == key {
 			break
