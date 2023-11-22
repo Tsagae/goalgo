@@ -6,7 +6,7 @@ import (
 
 type LinkedList[T any] struct {
 	head *listNode[T]
-	//TODO: keep a pointer to the tail too
+	//TODO: keep a pointer to the tail too / make it a doubly linked list
 	size int
 }
 
