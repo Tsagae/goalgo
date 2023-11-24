@@ -95,3 +95,23 @@ func TestMapGraph_AddEdge_Duplicate(t *testing.T) {
 			&MapGraphEdge[string, int]{"a", "b", 2, &graph},
 		})
 }
+
+func TestMapGraph_GetNode_NotFound(t *testing.T) {
+	graph := NewMapGraph[string, int]()
+	graph.AddNode("a")
+	graph.AddNode("b")
+	_, err := graph.GetNode("c")
+	assert.NotNil(t, err)
+}
+
+func TestMapGraphEdge_EdgeProperties(t *testing.T) {
+	graph := NewMapGraph[string, int]()
+	graph.AddNode("a")
+	graph.AddNode("b")
+	graph.AddEdge("a", "b", 3)
+	nodeA, err := graph.GetNode("a")
+	assert.Nil(t, err)
+
+	assert.Equal(t, "a", nodeA.GetEdges()[0].GetNodeFrom().GetLabel())
+	assert.Equal(t, 3, nodeA.GetEdges()[0].GetWeight())
+}
