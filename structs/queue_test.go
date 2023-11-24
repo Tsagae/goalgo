@@ -1,28 +1,21 @@
 package structs
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestQueue(t *testing.T) {
 	queue := NewQueue[int]()
-	if queue.Size() != 0 {
-		t.Errorf("Incorrect starting size")
-	}
+
+	assert.True(t, queue.IsEmpty())
 
 	queue.Enqueue(10)
-	if queue.Peek() != 10 {
-		t.Errorf("Incorrect top element")
-	}
+	assert.Equal(t, 10, queue.Peek())
+
 	queue.Enqueue(20)
+	assert.Equal(t, 10, queue.Dequeue())
 
-	item := queue.Dequeue()
-	if item != 10 {
-		t.Errorf("Inccorrect element dequeued")
-	}
-
-	if queue.Size() != 1 {
-		t.Errorf("Incorrect size")
-	}
+	assert.Equal(t, 1, queue.Size())
 
 }
