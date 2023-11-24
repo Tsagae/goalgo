@@ -115,3 +115,19 @@ func TestMapGraphEdge_EdgeProperties(t *testing.T) {
 	assert.Equal(t, "a", nodeA.GetEdges()[0].GetNodeFrom().GetLabel())
 	assert.Equal(t, 3, nodeA.GetEdges()[0].GetWeight())
 }
+
+func TestMapGraph_GetAllEdges(t *testing.T) {
+	graph := NewMapGraph[string, int]()
+	graph.AddNode("a")
+	graph.AddNode("b")
+	graph.AddNode("c")
+	graph.AddEdge("a", "b", 3)
+	graph.AddEdge("c", "a", 2)
+
+	expected := []Edge[string, int]{
+		&MapGraphEdge[string, int]{"a", "b", 3, &graph},
+		&MapGraphEdge[string, int]{"c", "a", 2, &graph},
+	}
+	actual := graph.GetAllEdges()
+	assert.ElementsMatch(t, expected, actual)
+}

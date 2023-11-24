@@ -93,6 +93,17 @@ func (g *MapGraph[T, W]) GetNode(label T) (Node[T, W], error) {
 	return &nodeToRet, fmt.Errorf("node not %v found in graph", label)
 }
 
+func (g *MapGraph[T, W]) GetAllEdges() []Edge[T, W] {
+	allEdges := make([]Edge[T, W], 0, len(g.innerMap))
+	for k := range g.innerMap {
+		edgeList := g.innerMap[k]
+		for i := 0; i < len(edgeList); i++ {
+			allEdges = append(allEdges, &edgeList[i])
+		}
+	}
+	return allEdges
+}
+
 // Node methods
 
 func (n *MapGraphNode[T, W]) GetEdges() []Edge[T, W] {
