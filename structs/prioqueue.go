@@ -89,6 +89,7 @@ func (q *PrioQueue[T, P]) reorderRootIterative(index int) {
 		//looking if the root is smaller than the smallest of the two children
 		l, r := q.getIndexChildren(index)
 		var minIndex int
+		//TODO: ugly code
 		if l == -1 && r == -1 {
 			return
 		} else if l == -1 {
