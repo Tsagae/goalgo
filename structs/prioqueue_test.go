@@ -9,9 +9,7 @@ func TestDequeue(t *testing.T) {
 	numbers := []int{3, 5, 1, 0, 9, 6, 4, 7, 2, 8}
 	queue := NewPrioQueue[int, int]()
 
-	if queue.Size() != 0 {
-		t.Errorf("Incorrect queue initial size")
-	}
+	assert.True(t, queue.IsEmpty())
 
 	for _, v := range numbers {
 		queue.Insert(v, v)
@@ -20,16 +18,11 @@ func TestDequeue(t *testing.T) {
 	for i := 0; i < len(numbers); i++ {
 		peeked := queue.Peek()
 		dequeued := queue.Dequeue()
-		if peeked != dequeued {
-			t.Errorf("Incorrect element peeked")
-		}
+		assert.Equal(t, peeked, dequeued)
 
-		if i != dequeued {
-			t.Errorf("Incorrect element dequeued")
-		}
-		if queue.Size() != len(numbers)-i-1 {
-			t.Errorf("Incorrect queue size: found: %v expected: %v", queue.Size(), len(numbers)-i-1)
-		}
+		assert.Equal(t, i, dequeued)
+
+		assert.Equal(t, len(numbers)-i-1, queue.Size())
 	}
 
 }
@@ -44,12 +37,9 @@ func TestRemove(t *testing.T) {
 	}
 
 	for i, v := range removeOrder {
-		if v != queue.Remove(v) {
-			t.Errorf("Incorrect element removed")
-		}
-		if queue.Size() != len(numbers)-i-1 {
-			t.Errorf("Incorrect queue size: found: %v expected: %v", queue.Size(), len(numbers)-i-1)
-		}
+
+		assert.Equal(t, v, queue.Remove(v))
+		assert.Equal(t, len(numbers)-i-1, queue.Size())
 	}
 
 }
@@ -68,8 +58,6 @@ func TestPrioQueue_ChangePriority(t *testing.T) {
 
 	for i, v := range removeOrder {
 		assert.Equal(t, v, queue.Dequeue())
-		if queue.Size() != len(values)-i-1 {
-			t.Errorf("Incorrect queue size: found: %v expected: %v", queue.Size(), len(values)-i-1)
-		}
+		assert.Equal(t, len(values)-i-1, queue.Size())
 	}
 }

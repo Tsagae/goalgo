@@ -53,3 +53,10 @@ func TestMapSet_Union(t *testing.T) {
 	assert.Equal(t, false, mapSetC.Find(10))
 
 }
+
+func TestMapSet_Items(t *testing.T) {
+	mapSet := NewMapSet[int]()
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8}
+	mapSet.PutAll(items...)
+	assert.ElementsMatch(t, items, mapSet.ToSlice())
+}

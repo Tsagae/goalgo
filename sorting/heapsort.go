@@ -15,6 +15,7 @@ func reorderRootRecursive[T cmp.Ordered](heap []T, index int) {
 	//if thr root is smaller than the biggest of the two children
 	l, r := getIndexChildren(heap, index)
 	var maxIndex int
+	//TODO: ugly code
 	if l == -1 && r == -1 {
 		return
 	} else if l == -1 {

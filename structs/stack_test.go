@@ -1,28 +1,20 @@
 package structs
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestStack(t *testing.T) {
 	stack := NewStack[int]()
-	if stack.Size() != 0 {
-		t.Errorf("Incorrect starting size")
-	}
+	assert.Equal(t, true, stack.IsEmpty())
 
 	stack.Push(10)
-	if stack.Peek() != 10 {
-		t.Errorf("Incorrect top element")
-	}
+	assert.Equal(t, 10, stack.Peek())
+
 	stack.Push(20)
 
-	item := stack.Pop()
-	if item != 20 {
-		t.Errorf("Inccorrect element popped")
-	}
+	assert.Equal(t, 20, stack.Pop())
 
-	if stack.Size() != 1 {
-		t.Errorf("Incorrect size")
-	}
-
+	assert.Equal(t, 1, stack.Size())
 }
