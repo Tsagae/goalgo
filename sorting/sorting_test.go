@@ -1,7 +1,6 @@
 package sorting
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +12,6 @@ func sortTest(t *testing.T, sort func([]int)) {
 	arr := make([]int, len(testArr))
 	copy(arr, testArr)
 	sort(arr)
-	fmt.Println("sortedArr: ", arr)
 	assert.IsNonDecreasing(t, arr)
 }
 

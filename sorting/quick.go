@@ -2,7 +2,6 @@ package sorting
 
 import (
 	"cmp"
-	"fmt"
 )
 
 func QuickSort[T cmp.Ordered](arr []T) {
@@ -14,8 +13,6 @@ func QuickSort[T cmp.Ordered](arr []T) {
 		// 1) partition the array in 2
 		var pivot int = partition(arr, 0, len(arr)-1)
 		// 2) recursively sort the two parts indipendently
-		fmt.Println(arr[:pivot])
-		fmt.Println(arr[pivot+1:])
 
 		QuickSort(arr[:pivot])
 		QuickSort(arr[pivot+1:])
