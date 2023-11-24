@@ -57,7 +57,7 @@ func (g *MapGraph[T, W]) RemoveNode(label T) {
 func (g *MapGraph[T, W]) AddEdge(from T, to T, weight W) {
 	originalList := g.innerMap[from]
 	for _, v := range originalList {
-		if v.labelTo == to {
+		if v.labelTo == to && v.weight == weight {
 			return
 		}
 	}

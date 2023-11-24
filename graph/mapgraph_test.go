@@ -78,3 +78,20 @@ func TestMapGraph(t *testing.T) {
 	expected := dEdges
 	assert.Equal(t, expected, actual)
 }
+
+func TestMapGraph_AddEdge_Duplicate(t *testing.T) {
+	graph := NewMapGraph[string, int]()
+	graph.AddNode("a")
+	graph.AddNode("b")
+	graph.AddEdge("a", "b", 1)
+	graph.AddEdge("a", "b", 2)
+	graph.AddEdge("a", "b", 1)
+	nodeA, err := graph.GetNode("a")
+	assert.Nil(t, err)
+	expected := nodeA.GetEdges()
+	assert.ElementsMatch(t, expected,
+		[]Edge[string, int]{
+			&MapGraphEdge[string, int]{"a", "b", 1, &graph},
+			&MapGraphEdge[string, int]{"a", "b", 2, &graph},
+		})
+}
