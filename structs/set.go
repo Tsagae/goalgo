@@ -6,7 +6,7 @@ type Set[T comparable] interface {
 	PutAll(...T)
 	Remove(T)
 	Size() int
-	Items() []T
+	ToSlice() []T
 }
 
 type MapSet[T comparable] struct {
@@ -43,7 +43,7 @@ func (m *MapSet[T]) Size() int {
 	return len(m.innerMap)
 }
 
-func (m *MapSet[T]) Items() []T {
+func (m *MapSet[T]) ToSlice() []T {
 	keys := make([]T, len(m.innerMap))
 
 	i := 0
