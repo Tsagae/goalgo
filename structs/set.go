@@ -3,6 +3,7 @@ package structs
 type Set[T comparable] interface {
 	Find(T) bool
 	Put(T)
+	PutAll(...T)
 	Remove(T)
 	Size() int
 	Items() []T
@@ -26,6 +27,12 @@ func (m *MapSet[T]) Find(item T) bool {
 
 func (m *MapSet[T]) Put(item T) {
 	m.innerMap[item] = true
+}
+
+func (m *MapSet[T]) PutAll(items ...T) {
+	for _, v := range items {
+		m.Put(v)
+	}
 }
 
 func (m *MapSet[T]) Remove(item T) {
