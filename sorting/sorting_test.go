@@ -40,7 +40,6 @@ func TestQuickSort(t *testing.T) {
 func TestMergeSort(t *testing.T) {
 	arr := make([]int, len(testArr))
 	copy(arr, testArr)
-	fmt.Println("arr: ", arr)
 	arr = mergeSort(arr)
 	assert.IsNonDecreasing(t, arr)
 }
