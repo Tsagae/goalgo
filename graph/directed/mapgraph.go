@@ -1,34 +1,35 @@
-package graph
+package directed
 
 import (
 	"fmt"
+	"github.com/tsagae/algoritmi/graph"
 )
 
-type MapGraph[T comparable, W Weight] struct {
+type DirectedMapGraph[T comparable, W graph.Weight] struct {
 	innerMap map[T][]MapGraphEdge[T, W]
 }
 
-type MapGraphNode[T comparable, W Weight] struct {
+type MapGraphNode[T comparable, W graph.Weight] struct {
 	label T
-	graph *MapGraph[T, W]
+	graph *DirectedMapGraph[T, W]
 }
 
-type MapGraphEdge[T comparable, W Weight] struct {
+type MapGraphEdge[T comparable, W graph.Weight] struct {
 	labelFrom T
 	labelTo   T
 	weight    W
-	graph     *MapGraph[T, W]
+	graph     *DirectedMapGraph[T, W]
 }
 
 // EdgeTuple Used only for constructing the graph
-type EdgeTuple[T comparable, W Weight] struct {
+type EdgeTuple[T comparable, W graph.Weight] struct {
 	LabelTo T
 	Weight  W
 }
 
-// NewMapGraph Constructor
-func NewMapGraph[T comparable, W Weight]() MapGraph[T, W] {
-	return MapGraph[T, W]{
+// NewDirectedMapGraph Constructor
+func NewDirectedMapGraph[T comparable, W graph.Weight]() DirectedMapGraph[T, W] {
+	return DirectedMapGraph[T, W]{
 		innerMap: make(map[T][]MapGraphEdge[T, W]),
 	}
 }
@@ -36,25 +37,25 @@ func NewMapGraph[T comparable, W Weight]() MapGraph[T, W] {
 // Graph metods
 
 // AddNode adds a node to the graph. Does nothing if the node is already present
-func (g *MapGraph[T, W]) AddNode(label T) {
+func (g *DirectedMapGraph[T, W]) AddNode(label T) {
 	if _, ok := g.innerMap[label]; ok {
 		return
 	}
 	g.innerMap[label] = make([]MapGraphEdge[T, W], 0)
 }
 
-func (g *MapGraph[T, W]) AddNodes(labels ...T) {
+func (g *DirectedMapGraph[T, W]) AddNodes(labels ...T) {
 	for _, v := range labels {
 		g.AddNode(v)
 	}
 }
 
-func (g *MapGraph[T, W]) RemoveNode(label T) {
+func (g *DirectedMapGraph[T, W]) RemoveNode(label T) {
 	panic("not implemented")
 }
 
-// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" already exists (Weight is ignored in this case)
-func (g *MapGraph[T, W]) AddEdge(from T, to T, weight W) {
+// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" already exists
+func (g *DirectedMapGraph[T, W]) AddEdge(from T, to T, weight W) {
 	originalList := g.innerMap[from]
 	for _, v := range originalList {
 		if v.labelTo == to && v.weight == weight {
@@ -70,18 +71,18 @@ func (g *MapGraph[T, W]) AddEdge(from T, to T, weight W) {
 		})
 }
 
-func (g *MapGraph[T, W]) AddEdges(from T, tuples ...EdgeTuple[T, W]) {
+func (g *DirectedMapGraph[T, W]) AddEdges(from T, tuples ...EdgeTuple[T, W]) {
 	for _, v := range tuples {
 		g.AddEdge(from, v.LabelTo, v.Weight)
 	}
 }
 
-func (g *MapGraph[T, W]) RemoveEdge(label T) {
+func (g *DirectedMapGraph[T, W]) RemoveEdge(label T) {
 	panic("not implemented")
 }
 
 // GetNode returns a node from the graph. Returns an error if the node is not found
-func (g *MapGraph[T, W]) GetNode(label T) (Node[T, W], error) {
+func (g *DirectedMapGraph[T, W]) GetNode(label T) (graph.Node[T, W], error) {
 	nodeToRet := MapGraphNode[T, W]{
 		label: label,
 		graph: nil,
@@ -93,8 +94,8 @@ func (g *MapGraph[T, W]) GetNode(label T) (Node[T, W], error) {
 	return &nodeToRet, fmt.Errorf("node not %v found in graph", label)
 }
 
-func (g *MapGraph[T, W]) GetAllEdges() []Edge[T, W] {
-	allEdges := make([]Edge[T, W], 0, len(g.innerMap))
+func (g *DirectedMapGraph[T, W]) GetAllEdges() []graph.Edge[T, W] {
+	allEdges := make([]graph.Edge[T, W], 0, len(g.innerMap))
 	for k := range g.innerMap {
 		edgeList := g.innerMap[k]
 		for i := 0; i < len(edgeList); i++ {
@@ -106,9 +107,9 @@ func (g *MapGraph[T, W]) GetAllEdges() []Edge[T, W] {
 
 // Node methods
 
-func (n *MapGraphNode[T, W]) GetEdges() []Edge[T, W] {
+func (n *MapGraphNode[T, W]) GetEdges() []graph.Edge[T, W] {
 	originalList := n.graph.innerMap[n.label]
-	toReturn := make([]Edge[T, W], 0, len(originalList))
+	toReturn := make([]graph.Edge[T, W], 0, len(originalList))
 	for _, v := range originalList {
 		toReturn = append(toReturn, &MapGraphEdge[T, W]{
 			v.labelFrom,
@@ -126,14 +127,14 @@ func (n *MapGraphNode[T, W]) GetLabel() T {
 
 // Edge methods
 
-func (e *MapGraphEdge[T, W]) GetNodeFrom() Node[T, W] {
+func (e *MapGraphEdge[T, W]) GetNodeFrom() graph.Node[T, W] {
 	return &MapGraphNode[T, W]{
 		label: e.labelFrom,
 		graph: e.graph,
 	}
 }
 
-func (e *MapGraphEdge[T, W]) GetNodeTo() Node[T, W] {
+func (e *MapGraphEdge[T, W]) GetNodeTo() graph.Node[T, W] {
 	return &MapGraphNode[T, W]{
 		label: e.labelTo,
 		graph: e.graph,
