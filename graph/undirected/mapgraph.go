@@ -1,4 +1,4 @@
-package directed
+package undirected
 
 import (
 	"github.com/tsagae/algoritmi/graph"

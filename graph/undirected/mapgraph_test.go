@@ -1,4 +1,4 @@
-package directed
+package undirected
 
 import (
 	"fmt"
