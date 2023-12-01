@@ -1,12 +1,13 @@
-package graph
+package directed
 
 import (
 	"github.com/stretchr/testify/assert"
+	graph2 "github.com/tsagae/algoritmi/graph"
 	"testing"
 )
 
-func getTestMapGraph() MapGraph[string, int] {
-	graph := NewMapGraph[string, int]()
+func getTestDirectedMapGraph() DirectedMapGraph[string, int] {
+	graph := NewDirectedMapGraph[string, int]()
 	graph.AddNode("a")
 	graph.AddNode("b")
 	graph.AddNode("c")
@@ -49,12 +50,12 @@ func getTestMapGraph() MapGraph[string, int] {
 }
 
 func TestMapGraph(t *testing.T) {
-	graph := getTestMapGraph()
+	graph := getTestDirectedMapGraph()
 	nodeD, err := graph.GetNode("d")
 	assert.Equal(t, nil, err)
 	assert.Equal(t, &MapGraphNode[string, int]{label: "d", graph: &graph}, nodeD)
 
-	dEdges := make([]Edge[string, int], 0)
+	dEdges := make([]graph2.Edge[string, int], 0)
 	dEdges = append(dEdges, &MapGraphEdge[string, int]{
 		labelFrom: "d",
 		labelTo:   "b",
@@ -80,7 +81,7 @@ func TestMapGraph(t *testing.T) {
 }
 
 func TestMapGraph_AddEdge_Duplicate(t *testing.T) {
-	graph := NewMapGraph[string, int]()
+	graph := NewDirectedMapGraph[string, int]()
 	graph.AddNode("a")
 	graph.AddNode("b")
 	graph.AddEdge("a", "b", 1)
@@ -90,14 +91,14 @@ func TestMapGraph_AddEdge_Duplicate(t *testing.T) {
 	assert.Nil(t, err)
 	expected := nodeA.GetEdges()
 	assert.ElementsMatch(t, expected,
-		[]Edge[string, int]{
+		[]graph2.Edge[string, int]{
 			&MapGraphEdge[string, int]{"a", "b", 1, &graph},
 			&MapGraphEdge[string, int]{"a", "b", 2, &graph},
 		})
 }
 
 func TestMapGraph_GetNode_NotFound(t *testing.T) {
-	graph := NewMapGraph[string, int]()
+	graph := NewDirectedMapGraph[string, int]()
 	graph.AddNode("a")
 	graph.AddNode("b")
 	_, err := graph.GetNode("c")
@@ -105,7 +106,7 @@ func TestMapGraph_GetNode_NotFound(t *testing.T) {
 }
 
 func TestMapGraphEdge_EdgeProperties(t *testing.T) {
-	graph := NewMapGraph[string, int]()
+	graph := NewDirectedMapGraph[string, int]()
 	graph.AddNode("a")
 	graph.AddNode("b")
 	graph.AddEdge("a", "b", 3)
@@ -114,4 +115,20 @@ func TestMapGraphEdge_EdgeProperties(t *testing.T) {
 
 	assert.Equal(t, "a", nodeA.GetEdges()[0].GetNodeFrom().GetLabel())
 	assert.Equal(t, 3, nodeA.GetEdges()[0].GetWeight())
+}
+
+func TestMapGraph_GetAllEdges(t *testing.T) {
+	graph := NewDirectedMapGraph[string, int]()
+	graph.AddNode("a")
+	graph.AddNode("b")
+	graph.AddNode("c")
+	graph.AddEdge("a", "b", 3)
+	graph.AddEdge("c", "a", 2)
+
+	expected := []graph2.Edge[string, int]{
+		&MapGraphEdge[string, int]{"a", "b", 3, &graph},
+		&MapGraphEdge[string, int]{"c", "a", 2, &graph},
+	}
+	actual := graph.GetAllEdges()
+	assert.ElementsMatch(t, expected, actual)
 }
