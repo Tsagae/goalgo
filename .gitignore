@@ -27,3 +27,6 @@ mingw/
 
 #vscode
 .code/
+
+#DevPod
+.devcontainer.json
