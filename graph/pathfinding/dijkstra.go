@@ -1,8 +1,8 @@
 package pathfinding
 
 import (
-	"github.com/tsagae/algoritmi/graph"
-	"github.com/tsagae/algoritmi/structs"
+	"github.com/tsagae/goalgo/graph"
+	"github.com/tsagae/goalgo/structs"
 	"slices"
 )
 

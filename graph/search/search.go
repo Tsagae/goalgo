@@ -1,8 +1,8 @@
 package search
 
 import (
-	"github.com/tsagae/algoritmi/graph"
-	"github.com/tsagae/algoritmi/structs"
+	"github.com/tsagae/goalgo/graph"
+	"github.com/tsagae/goalgo/structs"
 )
 
 func DFS[T comparable, W graph.Weight](startingNode graph.Node[T, W], visited structs.Set[T], f func(node2 graph.Node[T, W])) {

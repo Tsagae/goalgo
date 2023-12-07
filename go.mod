@@ -1,4 +1,4 @@
-module github.com/tsagae/algoritmi
+module github.com/tsagae/goalgo
 
 go 1.21.3
 

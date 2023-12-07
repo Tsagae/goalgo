@@ -3,7 +3,7 @@ package directed
 import (
 	"fmt"
 
-	"github.com/tsagae/algoritmi/graph"
+	"github.com/tsagae/goalgo/graph"
 )
 
 type DirectedMapGraph[T comparable, W graph.Weight] struct {

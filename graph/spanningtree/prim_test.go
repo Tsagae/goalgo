@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tsagae/algoritmi/graph"
-	"github.com/tsagae/algoritmi/graph/undirected"
-	"github.com/tsagae/algoritmi/structs"
+	"github.com/tsagae/goalgo/graph"
+	"github.com/tsagae/goalgo/graph/undirected"
+	"github.com/tsagae/goalgo/structs"
 )
 
 func getGraph1() undirected.UndirectedMapGraph[string, int] {

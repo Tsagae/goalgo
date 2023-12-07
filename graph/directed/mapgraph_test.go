@@ -2,7 +2,7 @@ package directed
 
 import (
 	"github.com/stretchr/testify/assert"
-	graph2 "github.com/tsagae/algoritmi/graph"
+	graph2 "github.com/tsagae/goalgo/graph"
 	"testing"
 )
 

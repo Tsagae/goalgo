@@ -2,9 +2,9 @@ package search
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/tsagae/algoritmi/graph"
-	"github.com/tsagae/algoritmi/graph/directed"
-	"github.com/tsagae/algoritmi/structs"
+	"github.com/tsagae/goalgo/graph"
+	"github.com/tsagae/goalgo/graph/directed"
+	"github.com/tsagae/goalgo/structs"
 	"testing"
 )
 
