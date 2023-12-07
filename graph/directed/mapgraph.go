@@ -2,6 +2,7 @@ package directed
 
 import (
 	"fmt"
+
 	"github.com/tsagae/algoritmi/graph"
 )
 
@@ -54,8 +55,10 @@ func (g *DirectedMapGraph[T, W]) RemoveNode(label T) {
 	panic("not implemented")
 }
 
-// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" already exists
+// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" already exists. If "from" or "to" do not exist, they are added
 func (g *DirectedMapGraph[T, W]) AddEdge(from T, to T, weight W) {
+	g.AddNode(from)
+	g.AddNode(to)
 	originalList := g.innerMap[from]
 	for _, v := range originalList {
 		if v.labelTo == to && v.weight == weight {

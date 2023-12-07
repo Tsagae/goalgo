@@ -61,6 +61,7 @@ func (q *PrioQueue[T, P]) Peek() T {
 	return q.heap[0].item
 }
 
+// If the item is not found is added to the priority list
 func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
 	itemIndex := -1
 	var foundItem *prioQueueItem[T, P]
@@ -72,6 +73,7 @@ func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
 		}
 	}
 	if itemIndex == -1 { //item not found
+		q.Insert(item, newPriority)
 		return
 	}
 	oldPriority := foundItem.priority

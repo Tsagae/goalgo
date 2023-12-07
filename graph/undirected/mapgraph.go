@@ -34,7 +34,7 @@ func (g *UndirectedMapGraph[T, W]) RemoveNode(label T) {
 	panic("not implemented")
 }
 
-// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" or vice versa already exists
+// AddEdge adds an edge to the graph. Does nothing if an edge from "from" to "to" or vice versa already exists. If "from" or "to" do not exist, they are added
 func (g *UndirectedMapGraph[T, W]) AddEdge(from T, to T, weight W) {
 	g.innerGraph.AddEdge(from, to, weight)
 	g.innerGraph.AddEdge(to, from, weight)
