@@ -1,4 +1,41 @@
-# Algorithms and data structures
+# Goalgo(rithms and data structures)
 
-Implementation of various algorithms and data structures in golang (most of them seen during my time at uni for the algorithms and data structures course)
+Implementation of various algorithms and data structures in golang
+
 Now reworked with generics and interfaces!
+
+## Data Structures
+
+- Binary Tree
+- Linked List
+- Stack
+- Queue
+- Priority Queue (Heap)
+- Set (Implemented with a map)
+- Graph (Directed and Undirected)
+
+## Algorithms
+
+- Sorting
+    - Selection sort
+    - Insertion sort
+    - Bubble sort
+    - Merge sort
+    - Heap sort
+    - quicksort
+
+- Search
+    - BFS
+    - DFS
+
+- Pathfinding
+    - Dijkstra
+
+- Minimum Spanning Tree
+    - Prim
+
+## Installation
+
+1. cd into the directory of your project
+2. go get github.com/tsagae/goalgo
+
