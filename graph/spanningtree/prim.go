@@ -6,36 +6,34 @@ import (
 	"github.com/tsagae/algoritmi/structs"
 )
 
-func Prim[T comparable, W graph.Weight](start graph.Node[T, W]) undirected.UndirectedMapGraph[T, W] {
-	finalGraph := undirected.NewUndirectedMapGraph[T, W]()
-	visited := structs.NewMapSet[T]()
-	added := structs.NewMapSet[T]()
+// numOfNodes can be set to -1 if the total number of nodes is not known. Affects performance but result is correct
+func Prim[T comparable, W graph.Weight](start graph.Node[T, W], numOfNodes int) undirected.UndirectedMapGraph[T, W] {
+	spanningTree := undirected.NewUndirectedMapGraph[T, W]()
+	spanningTreeNodes := structs.NewMapSet[T]()
 	edgesQueue := structs.NewPrioQueue[graph.Edge[T, W], W]()
-	nodesQueue := structs.NewQueue[graph.Node[T, W]]()
 
-	nodesQueue.Enqueue(start)
+	spanningTreeNodes.Put(start.GetLabel())
+	for _, edge := range start.GetEdges() {
+		edgesQueue.Insert(edge, edge.GetWeight())
+	}
 
-	for !edgesQueue.IsEmpty() {
-		cur := edgesQueue.Dequeue()
-		from := cur.GetNodeFrom().GetLabel()
-		to := cur.GetNodeTo().GetLabel()
-
-		if visited.Find(from) {
-			continue
+	for edgesQueue.Size() != 0 {
+		if spanningTreeNodes.Size() == numOfNodes {
+			break
 		}
-		visited.Put(from)
-
-		if !added.Find(to) {
-			finalGraph.AddNodes(from, to)
-			finalGraph.AddEdge(from, to, cur.GetWeight())
-		}
-
-		for _, edge := range cur.GetNodeTo().GetEdges() {
-			if !visited.Find(edge.GetNodeTo().GetLabel()) {
-				edgesQueue.Insert(edge, edge.GetWeight())
+		edge := edgesQueue.Dequeue()
+		nodeTo := edge.GetNodeTo()
+		nodeFrom := edge.GetNodeFrom()
+		if !spanningTreeNodes.Find(nodeTo.GetLabel()) {
+			spanningTreeNodes.Put(nodeTo.GetLabel())
+			spanningTree.AddEdge(nodeFrom.GetLabel(), nodeTo.GetLabel(), edge.GetWeight())
+			for _, nextEdge := range nodeTo.GetEdges() {
+				if nextEdge.GetNodeTo().GetLabel() != nodeFrom.GetLabel() {
+					edgesQueue.Insert(nextEdge, nextEdge.GetWeight())
+				}
 			}
 		}
 	}
 
-	return finalGraph
+	return spanningTree
 }
