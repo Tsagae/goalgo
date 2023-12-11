@@ -79,8 +79,8 @@ func TestBFS(t *testing.T) {
 	testVisited := structs.NewMapSet[string]()
 	testVisitedPtr := &testVisited
 
-	BFS(firstNode, func(node graph.Node[string, int]) {
-		testVisitedPtr.Put(node.GetLabel())
+	BFS(firstNode, func(nodeA graph.Node[string, int], nodeB graph.Node[string, int]) {
+		testVisitedPtr.Put(nodeA.GetLabel())
 	})
 
 	assert.Equal(t, true, testVisited.Find("a"))
