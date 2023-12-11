@@ -2,6 +2,7 @@ package structs
 
 import (
 	"fmt"
+	"strings"
 )
 
 type LinkedList[T any] struct {
@@ -164,14 +165,18 @@ func (list *LinkedList[T]) IsEmpty() bool {
 }
 
 func (list *LinkedList[T]) ToString() string {
-	outStr := ""
+	var sb strings.Builder
 	iter := list.Iterator()
+	sb.WriteString("[")
 	for iter.HasNext() {
-		outStr += fmt.Sprintf("%v, ", iter.Next())
+		sb.WriteString(fmt.Sprintf("%v", iter.Next()))
+		if iter.HasNext() {
+			sb.WriteString(", ")
+		}
 	}
-	if len(outStr) == 0 {
+	if sb.Len() == 1 {
 		return "[]"
 	}
-	outStr = outStr[:len(outStr)-2]
-	return "[" + outStr + "]"
+	sb.WriteString("]")
+	return sb.String()
 }

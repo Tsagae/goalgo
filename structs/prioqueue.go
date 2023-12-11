@@ -1,6 +1,10 @@
 package structs
 
-import "cmp"
+import (
+	"cmp"
+	"fmt"
+	"strings"
+)
 
 // Priority queue implemented with an heap. Lowest number -> highest priority
 type PrioQueue[T comparable, P cmp.Ordered] struct {
@@ -162,4 +166,18 @@ func (q *PrioQueue[T, P]) indexFromKey(key P) int {
 		}
 	}
 	return i
+}
+
+// Elements are not guaranteed to be in order of priority
+func (q *PrioQueue[T, P]) ToString() string {
+	var sb strings.Builder
+	if q.IsEmpty() {
+		return "[]"
+	}
+	sb.WriteString("[")
+	for _, v := range q.heap {
+		sb.WriteString(fmt.Sprintf(" {v:%v p:%v}", v.item, v.priority))
+	}
+	sb.WriteString(" ]")
+	return sb.String()
 }

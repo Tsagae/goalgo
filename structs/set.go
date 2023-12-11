@@ -1,5 +1,10 @@
 package structs
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Set[T comparable] interface {
 	Find(T) bool
 	Put(T)
@@ -65,4 +70,22 @@ func Union[T comparable](a MapSet[T], b MapSet[T]) MapSet[T] {
 		bigger.innerMap[k] = true
 	}
 	return bigger
+}
+
+func (m *MapSet[T]) ToString() string {
+	if m.Size() == 0 {
+		return "{}"
+	}
+	var sb strings.Builder
+	sb.WriteString("{ ")
+	i := 0
+	for k := range m.innerMap {
+		sb.WriteString(fmt.Sprintf("%v", k))
+		if i != m.Size()-1 {
+			sb.WriteString(", ")
+		}
+		i++
+	}
+	sb.WriteString(" }")
+	return sb.String()
 }
