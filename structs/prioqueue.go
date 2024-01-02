@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Priority queue implemented with an heap. Lowest number -> highest priority
+// PrioQueue Priority queue implemented with a heap. Lowest number -> highest priority
 type PrioQueue[T comparable, P cmp.Ordered] struct {
 	heap []prioQueueItem[T, P]
 }
@@ -36,7 +36,7 @@ func (q *PrioQueue[T, P]) Insert(item T, priority P) {
 	q.reorderFromBottom(q.Size() - 1)
 }
 
-// Removes and returns the item with the highest priority
+// Dequeue Removes and returns the item with the highest priority
 func (q *PrioQueue[T, P]) Dequeue() T {
 	itemToRet := q.heap[0].item
 	q.heap[0], q.heap[q.Size()-1] = q.heap[q.Size()-1], q.heap[0]
@@ -65,7 +65,7 @@ func (q *PrioQueue[T, P]) Peek() T {
 	return q.heap[0].item
 }
 
-// If the item is not found is added to the priority list
+// ChangePriority If the item is not found is added to the priority list
 func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
 	itemIndex := -1
 	var foundItem *prioQueueItem[T, P]
@@ -143,7 +143,7 @@ func getIndexParent(index int) int {
 
 func (q *PrioQueue[T, P]) reorderFromBottom(index int) {
 	for {
-		var lowerIndex int = index
+		lowerIndex := index
 		lowerIndex = getIndexParent(index)
 		if lowerIndex < 0 {
 			return
@@ -168,7 +168,7 @@ func (q *PrioQueue[T, P]) indexFromKey(key P) int {
 	return i
 }
 
-// Elements are not guaranteed to be in order of priority
+// ToString Elements are not guaranteed to be in order of priority
 func (q *PrioQueue[T, P]) ToString() string {
 	var sb strings.Builder
 	if q.IsEmpty() {
