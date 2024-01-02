@@ -168,8 +168,8 @@ func (q *PrioQueue[T, P]) indexFromKey(key P) int {
 	return i
 }
 
-// ToString Elements are not guaranteed to be in order of priority
-func (q *PrioQueue[T, P]) ToString() string {
+// String Elements are not guaranteed to be in order of priority
+func (q *PrioQueue[T, P]) String() string {
 	var sb strings.Builder
 	if q.IsEmpty() {
 		return "[]"
