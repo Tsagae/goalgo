@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-// PrioQueue Priority queue implemented with a heap. Lowest number -> highest priority
+// PrioQueue Priority queue implemented with a heap. Lowest number -> highest priority.
+// Admits duplicates for both priorities and items
 type PrioQueue[T comparable, P cmp.Ordered] struct {
 	heap []prioQueueItem[T, P]
 }
@@ -19,8 +20,6 @@ type prioQueueItem[T comparable, P cmp.Ordered] struct {
 func NewPrioQueue[T comparable, P cmp.Ordered]() PrioQueue[T, P] {
 	return PrioQueue[T, P]{heap: make([]prioQueueItem[T, P], 0)}
 }
-
-//size enqueue dequeue peek
 
 func (q *PrioQueue[T, P]) Size() int {
 	return len(q.heap)
@@ -61,6 +60,7 @@ func (q *PrioQueue[T, P]) Remove(priority P) T {
 	return itemToRet
 }
 
+// Peek Returns the item with the highest priority
 func (q *PrioQueue[T, P]) Peek() T {
 	return q.heap[0].item
 }
