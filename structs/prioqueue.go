@@ -90,6 +90,32 @@ func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
 	}
 }
 
+// GetPriority Returns the priority of the specified item.
+// If there are duplicates returns one of them with no guarantees about which item is retrieved
+func (q *PrioQueue[T, P]) GetPriority(item T) (P, error) {
+	for _, v := range q.heap {
+		if v.item == item {
+			return v.priority, nil
+		}
+	}
+	var p P
+	return p, fmt.Errorf("item %v not found", item)
+}
+
+// String Elements are not guaranteed to be in order of priority
+func (q *PrioQueue[T, P]) String() string {
+	var sb strings.Builder
+	if q.IsEmpty() {
+		return "[]"
+	}
+	sb.WriteString("[")
+	for _, v := range q.heap {
+		sb.WriteString(fmt.Sprintf(" {v:%v p:%v}", v.item, v.priority))
+	}
+	sb.WriteString(" ]")
+	return sb.String()
+}
+
 func (q *PrioQueue[T, P]) reorderRootIterative(index int) {
 	for {
 		//looking if the root is smaller than the smallest of the two children
@@ -166,18 +192,4 @@ func (q *PrioQueue[T, P]) indexFromKey(key P) int {
 		}
 	}
 	return i
-}
-
-// String Elements are not guaranteed to be in order of priority
-func (q *PrioQueue[T, P]) String() string {
-	var sb strings.Builder
-	if q.IsEmpty() {
-		return "[]"
-	}
-	sb.WriteString("[")
-	for _, v := range q.heap {
-		sb.WriteString(fmt.Sprintf(" {v:%v p:%v}", v.item, v.priority))
-	}
-	sb.WriteString(" ]")
-	return sb.String()
 }

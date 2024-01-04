@@ -61,3 +61,18 @@ func TestPrioQueue_ChangePriority(t *testing.T) {
 		assert.Equal(t, len(values)-i-1, queue.Size())
 	}
 }
+
+func TestPrioQueue_GetPriority(t *testing.T) {
+	values := []rune{'A', 'B', 'C', 'D', 'E'}
+	priorities := []int{3, 10, 2, 4, 3}
+	queue := NewPrioQueue[rune, int]()
+	for i, v := range values {
+		queue.Insert(v, priorities[i])
+	}
+
+	for i, v := range values {
+		p, err := queue.GetPriority(v)
+		assert.Nil(t, err)
+		assert.Equal(t, priorities[i], p)
+	}
+}
