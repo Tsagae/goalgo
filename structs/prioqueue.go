@@ -102,6 +102,15 @@ func (q *PrioQueue[T, P]) GetPriority(item T) (P, error) {
 	return p, fmt.Errorf("item %v not found", item)
 }
 
+// ChangeValue Changes the value of an element of the queue. Does nothing if the element is not found
+func (q *PrioQueue[T, P]) ChangeValue(toChange T, newValue T) {
+	for i, v := range q.heap {
+		if v.item == toChange {
+			q.heap[i].item = newValue
+		}
+	}
+}
+
 // String Elements are not guaranteed to be in order of priority
 func (q *PrioQueue[T, P]) String() string {
 	var sb strings.Builder
