@@ -3,7 +3,7 @@ package undirected
 import (
 	"github.com/tsagae/goalgo/graph"
 	"github.com/tsagae/goalgo/graph/directed"
-	"github.com/tsagae/goalgo/structs"
+	"github.com/tsagae/goalgo/structs/set"
 )
 
 type UndirectedMapGraph[T comparable, W graph.Weight] struct {
@@ -57,7 +57,7 @@ func (g *UndirectedMapGraph[T, W]) GetAllEdges() []graph.Edge[T, W] {
 		to     T
 		weight W
 	}
-	edgeSet := structs.NewMapSet[edgeForSet[T, W]]()
+	edgeSet := set.NewMapSet[edgeForSet[T, W]]()
 	edgeList := g.innerGraph.GetAllEdges()
 	edgeListToRet := make([]graph.Edge[T, W], 0, len(edgeList)/2)
 	for _, v := range edgeList {

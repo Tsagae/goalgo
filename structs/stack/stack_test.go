@@ -1,4 +1,4 @@
-package structs
+package stack
 
 import (
 	"github.com/stretchr/testify/assert"
