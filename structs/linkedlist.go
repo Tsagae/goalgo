@@ -47,7 +47,7 @@ func createNode[T any](val T, next *listNode[T]) *listNode[T] {
 	}
 }
 
-func (list *LinkedList[T]) Add(val T) {
+func (list *LinkedList[T]) AddLast(val T) {
 	lastNode := list.getLastNode()
 	newNode := createNode(val, nil)
 	if lastNode == nil {
@@ -130,6 +130,11 @@ func (list *LinkedList[T]) Get(index int) T {
 		return zeroVal
 	}
 	return node.val
+}
+
+// Head Result is undefined if the list is empty
+func (list *LinkedList[T]) Head() T {
+	return list.head.val
 }
 
 // Result is undefined if called outside the range of the list

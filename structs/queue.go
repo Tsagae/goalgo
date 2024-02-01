@@ -9,7 +9,7 @@ func NewQueue[T any]() Queue[T] {
 }
 
 func (q *Queue[T]) Enqueue(item T) {
-	q.innerList.Add(item)
+	q.innerList.AddLast(item)
 }
 
 // Result is undefined if called on empty queue
