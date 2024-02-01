@@ -1,17 +1,17 @@
-package structs
+package list
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestNewLinkedList(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList(t *testing.T) {
+	list := NewList[int]()
 	assert.Zero(t, list.Size(), "Incorrect starting size")
 }
 
-func TestLinkedList_AddLast(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_AddLast(t *testing.T) {
+	list := NewList[int]()
 
 	for i := 5; i < 10; i++ {
 		list.AddLast(i)
@@ -29,8 +29,8 @@ func TestLinkedList_AddLast(t *testing.T) {
 
 }
 
-func TestLinkedList_Add(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_Add(t *testing.T) {
+	list := NewList[int]()
 
 	for i := 5; i < 10; i++ {
 		list.AddLast(i)
@@ -47,15 +47,15 @@ func TestLinkedList_Add(t *testing.T) {
 	assert.Equal(t, 7, list.Size(), "Incorrect size after Add")
 }
 
-func TestLinkedList_AddFirst(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_AddFirst(t *testing.T) {
+	list := NewList[int]()
 	list.AddFirst(10)
 	assert.Equal(t, 10, list.head.val)
 	assert.Equal(t, 10, list.tail.val)
 }
 
-func TestLinkedList_Remove(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_Remove(t *testing.T) {
+	list := NewList[int]()
 
 	list.AddLast(10)
 	list.AddLast(20)
@@ -68,8 +68,8 @@ func TestLinkedList_Remove(t *testing.T) {
 	assert.Equal(t, 2, list.Size(), "Incorrect size after Remove")
 }
 
-func TestLinkedList_GetFirst(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_GetFirst(t *testing.T) {
+	list := NewList[int]()
 	list.AddLast(10)
 	list.AddLast(20)
 	list.AddLast(30)
@@ -80,8 +80,8 @@ func TestLinkedList_GetFirst(t *testing.T) {
 	assert.Equal(t, 50, list.GetFirst())
 }
 
-func TestLinkedList_GetLast(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_GetLast(t *testing.T) {
+	list := NewList[int]()
 	list.AddLast(10)
 	list.AddLast(20)
 	assert.Equal(t, 20, list.GetLast())
@@ -96,8 +96,8 @@ func TestLinkedList_GetLast(t *testing.T) {
 	assert.Equal(t, 20, list.GetLast())
 }
 
-func TestLinkedList_RemoveFirst(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_RemoveFirst(t *testing.T) {
+	list := NewList[int]()
 	list.AddLast(10)
 	list.AddLast(20)
 	list.AddLast(30)
@@ -107,8 +107,8 @@ func TestLinkedList_RemoveFirst(t *testing.T) {
 	assert.Equal(t, 30, list.GetFirst())
 }
 
-func TestLinkedList_RemoveLast(t *testing.T) {
-	list := NewLinkedList[int]()
+func TestList_RemoveLast(t *testing.T) {
+	list := NewList[int]()
 	list.AddLast(10)
 	list.AddLast(20)
 	list.AddLast(30)

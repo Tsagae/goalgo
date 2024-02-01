@@ -1,4 +1,4 @@
-package structs
+package binarytree
 
 type TreeNode[T any] struct {
 	Item T

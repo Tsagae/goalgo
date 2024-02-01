@@ -1,14 +1,14 @@
-package structs
+package list
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestListNode_AddAfter(t *testing.T) {
-	list := NewLinkedList[int]()
-	list.head = &ListNode[int]{0, nil, nil, &list}
-	list.tail = &ListNode[int]{1, nil, nil, &list}
+func TestNode_AddAfter(t *testing.T) {
+	list := NewList[int]()
+	list.head = &Node[int]{0, nil, nil, &list}
+	list.tail = &Node[int]{1, nil, nil, &list}
 	list.head.next = list.tail
 	list.tail.prev = list.head
 	list.size = 2
@@ -23,10 +23,10 @@ func TestListNode_AddAfter(t *testing.T) {
 	assert.Equal(t, 4, list.Size())
 }
 
-func TestListNode_AddBefore(t *testing.T) {
-	list := NewLinkedList[int]()
-	list.head = &ListNode[int]{0, nil, nil, &list}
-	list.tail = &ListNode[int]{1, nil, nil, &list}
+func TestNode_AddBefore(t *testing.T) {
+	list := NewList[int]()
+	list.head = &Node[int]{0, nil, nil, &list}
+	list.tail = &Node[int]{1, nil, nil, &list}
 	list.head.next = list.tail
 	list.tail.prev = list.head
 	list.size = 2
@@ -42,10 +42,10 @@ func TestListNode_AddBefore(t *testing.T) {
 	assert.Equal(t, 4, list.Size())
 }
 
-func TestListNode_Remove(t *testing.T) {
-	list := NewLinkedList[int]()
-	list.head = &ListNode[int]{0, nil, nil, &list}
-	list.tail = &ListNode[int]{1, nil, nil, &list}
+func TestNode_Remove(t *testing.T) {
+	list := NewList[int]()
+	list.head = &Node[int]{0, nil, nil, &list}
+	list.tail = &Node[int]{1, nil, nil, &list}
 	list.head.next = list.tail
 	list.tail.prev = list.head
 	list.size = 2

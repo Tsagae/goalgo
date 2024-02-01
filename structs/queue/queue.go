@@ -1,11 +1,13 @@
-package structs
+package queue
+
+import "github.com/tsagae/goalgo/structs/list"
 
 type Queue[T any] struct {
-	innerList LinkedList[T]
+	innerList list.List[T]
 }
 
 func NewQueue[T any]() Queue[T] {
-	return Queue[T]{NewLinkedList[T]()}
+	return Queue[T]{list.NewList[T]()}
 }
 
 func (q *Queue[T]) Enqueue(item T) {

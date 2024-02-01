@@ -2,10 +2,11 @@ package search
 
 import (
 	"github.com/tsagae/goalgo/graph"
-	"github.com/tsagae/goalgo/structs"
+	"github.com/tsagae/goalgo/structs/queue"
+	"github.com/tsagae/goalgo/structs/set"
 )
 
-func DFS[T comparable, W graph.Weight](startingNode graph.Node[T, W], visited structs.Set[T], f func(node2 graph.Node[T, W])) {
+func DFS[T comparable, W graph.Weight](startingNode graph.Node[T, W], visited set.Set[T], f func(node2 graph.Node[T, W])) {
 	//TODO: implement iteratively
 	if visited.Find(startingNode.GetLabel()) {
 		return
@@ -22,19 +23,19 @@ func DFS[T comparable, W graph.Weight](startingNode graph.Node[T, W], visited st
 }
 
 func BFS[T comparable, W graph.Weight](startingNode graph.Node[T, W], f func(nodeFrom graph.Node[T, W], nodeTo graph.Node[T, W])) {
-	queue := structs.NewQueue[graph.Node[T, W]]()
-	visited := structs.NewMapSet[T]()
+	q := queue.NewQueue[graph.Node[T, W]]()
+	visited := set.NewMapSet[T]()
 
-	queue.Enqueue(startingNode)
+	q.Enqueue(startingNode)
 	visited.Put(startingNode.GetLabel())
 
-	for !queue.IsEmpty() {
-		currentNode := queue.Dequeue()
+	for !q.IsEmpty() {
+		currentNode := q.Dequeue()
 		for _, v := range currentNode.GetEdges() {
 			nodeTo := v.GetNodeTo()
 			f(currentNode, nodeTo)
 			if !visited.Find(nodeTo.GetLabel()) {
-				queue.Enqueue(nodeTo)
+				q.Enqueue(nodeTo)
 				f(currentNode, nodeTo)
 				visited.Put(nodeTo.GetLabel())
 			}
