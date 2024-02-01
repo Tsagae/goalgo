@@ -6,159 +6,96 @@ import (
 )
 
 type LinkedList[T any] struct {
-	head *listNode[T]
-	//TODO: keep a pointer to the tail too / make it a doubly linked list
+	head *ListNode[T]
+	tail *ListNode[T]
 	size int
 }
 
-type listNode[T any] struct {
-	val  T
-	next *listNode[T]
-}
-
-type ListIterator[T any] struct {
-	node *listNode[T]
-	//TODO: change iterator implementation with a yield function?
-}
-
-func (list *LinkedList[T]) Iterator() ListIterator[T] {
-	return ListIterator[T]{node: list.head}
-}
-
-func (iter *ListIterator[T]) HasNext() bool {
-	return iter.node != nil
-}
-
-// Result is undefined if iter.hasNext() is false. Behavior is undefined if the list is modified while using the iterator
-func (iter *ListIterator[T]) Next() T {
-	valToRet := iter.node.val
-	iter.node = iter.node.next
-	return valToRet
-}
-
 func NewLinkedList[T any]() LinkedList[T] {
-	return LinkedList[T]{head: nil}
+	return LinkedList[T]{head: nil, tail: nil}
 }
 
-func createNode[T any](val T, next *listNode[T]) *listNode[T] {
-	return &listNode[T]{
-		val:  val,
-		next: next,
+func (list *LinkedList[T]) AddFirst(val T) {
+	if list.size == 0 {
+		newNode := &ListNode[T]{val, nil, nil, list}
+		list.head = newNode
+		list.tail = newNode
+		list.size++
+	} else {
+		list.head.AddBefore(val)
 	}
 }
 
 func (list *LinkedList[T]) AddLast(val T) {
-	lastNode := list.getLastNode()
-	newNode := createNode(val, nil)
-	if lastNode == nil {
+	if list.size == 0 {
+		newNode := &ListNode[T]{val, nil, nil, list}
 		list.head = newNode
+		list.tail = newNode
+		list.size++
 	} else {
-		lastNode.next = newNode
+		list.tail.AddAfter(val)
 	}
-	list.size++
 }
 
-func (list *LinkedList[T]) Insert(index int, itemToInsert T) {
-	if index < 0 {
+func (list *LinkedList[T]) Add(index int, itemToInsert T) {
+	if index < 0 || index > list.size {
 		return
-	}
-
-	nodeToInsert := createNode[T](itemToInsert, nil)
-	if index == 0 {
-		nodeToInsert.next = list.head
-		list.head = nodeToInsert
-		list.size++
+	} else if index == 0 {
+		list.AddFirst(itemToInsert)
+		return
+	} else if index == list.size {
+		list.AddLast(itemToInsert)
 	} else {
-		node := list.getNode(index - 1)
-		if node == nil {
-			return
-		}
-		nodeToInsert.next = node.next
-		node.next = nodeToInsert
-		list.size++
+		node := list.getNode(index)
+		node.AddBefore(itemToInsert)
 	}
+
 }
 
-func (list *LinkedList[T]) getLastNode() *listNode[T] {
-	currentNode := list.head
-	if currentNode == nil {
-		return nil
-	}
-	for currentNode.next != nil {
-		currentNode = currentNode.next
-	}
-	return currentNode
+// GetNode Result is undefined if called outside the range of the list
+func (list *LinkedList[T]) GetNode(index int) *ListNode[T] {
+	return list.getNode(index)
 }
 
-// Result is undefined if called on empty list
-func (list *LinkedList[T]) GetLast() T {
-	currentNode := list.head
-	if currentNode == nil {
-		var zeroVal T
-		return zeroVal
-	}
-	for currentNode.next != nil {
-		currentNode = currentNode.next
-	}
-	return currentNode.val
-}
-
-func (list *LinkedList[T]) getNode(index int) *listNode[T] {
-	if index < 0 {
-		return nil
-	}
-	currentNode := list.head
-	if currentNode == nil {
-		return nil
-	}
-	var i int = 0
-	for currentNode != nil {
-		if i == index {
-			break
-		}
-		currentNode = currentNode.next
-		i++
-	}
-	return currentNode
-}
-
-// Result is undefined if called outside the range of the list
+// Get Result is undefined if called outside the range of the list
 func (list *LinkedList[T]) Get(index int) T {
+	var valToRet T
 	node := list.getNode(index)
-	if node == nil {
-		var zeroVal T
-		return zeroVal
+	if node != nil {
+		valToRet = node.val
 	}
-	return node.val
+	return valToRet
 }
 
-// Head Result is undefined if the list is empty
-func (list *LinkedList[T]) Head() T {
-	return list.head.val
+// GetFirst Result is undefined if called on empty list
+func (list *LinkedList[T]) GetFirst() T {
+	return list.Get(0)
 }
 
-// Result is undefined if called outside the range of the list
+// GetLast Result is undefined if called on empty list
+func (list *LinkedList[T]) GetLast() T {
+	return list.Get(list.size - 1)
+}
+
+// Remove Result is undefined if called outside the range of the list
 func (list *LinkedList[T]) Remove(index int) T {
-	if index < 0 || list.IsEmpty() {
-		var zeroVal T
-		return zeroVal
+	var removedVal T
+	node := list.getNode(index)
+	if node != nil {
+		removedVal = node.val
+		node.Remove()
 	}
-	if index == 0 {
-		prevHead := list.head
-		list.head = list.head.next
-		list.size--
-		return prevHead.val
-	} else {
-		node := list.getNode(index - 1)
-		nodeToRemove := node.next
-		if nodeToRemove != nil {
-			node.next = nodeToRemove.next
-			list.size--
-			return nodeToRemove.val
-		}
-	}
-	var zeroVal T
-	return zeroVal
+	return removedVal
+}
+
+// RemoveFirst Result is undefined if called outside the range of the list
+func (list *LinkedList[T]) RemoveFirst() T {
+	return list.Remove(0)
+}
+
+// RemoveLast Result is undefined if called outside the range of the list
+func (list *LinkedList[T]) RemoveLast() T {
+	return list.Remove(list.size - 1)
 }
 
 func (list *LinkedList[T]) Size() int {
@@ -184,4 +121,44 @@ func (list *LinkedList[T]) ToString() string {
 	}
 	sb.WriteString("]")
 	return sb.String()
+}
+
+func (list *LinkedList[T]) getNode(index int) *ListNode[T] {
+	if index < 0 || index >= list.size {
+		return nil
+	}
+	if index == 0 {
+		return list.head
+	} else if index == list.size-1 {
+		return list.tail
+	}
+	var node *ListNode[T]
+	if index > list.size/2 {
+		node = list.getFromBottom(index)
+	} else {
+		node = list.getFromTop(index)
+	}
+	return node
+}
+
+func (list *LinkedList[T]) getFromTop(index int) *ListNode[T] {
+	curNode := list.head
+	for i := 0; i < list.size; i++ {
+		if i == index {
+			return curNode
+		}
+		curNode = curNode.next
+	}
+	return nil
+}
+
+func (list *LinkedList[T]) getFromBottom(index int) *ListNode[T] {
+	curNode := list.tail
+	for i := list.size - 1; i >= 0; i-- {
+		if i == index {
+			return curNode
+		}
+		curNode = curNode.prev
+	}
+	return nil
 }
