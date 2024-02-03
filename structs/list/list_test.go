@@ -19,11 +19,11 @@ func TestList_AddLast(t *testing.T) {
 
 	assert.Equal(t, 5, list.Size(), "Incorrect size after AddLast")
 
-	iterator := list.Iterator()
+	node := list.GetNode(0)
 	index := 5
-	for iterator.HasNext() {
-		listItem := iterator.Next()
-		assert.Equal(t, index, listItem)
+	for node != nil {
+		assert.Equal(t, index, node.Value())
+		node = node.Next()
 		index++
 	}
 
