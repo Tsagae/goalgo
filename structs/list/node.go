@@ -61,3 +61,13 @@ func (node *Node[T]) Remove() {
 	node.prev = nil
 	node.list = nil
 }
+
+// Next returns nil if there is no next
+func (node *Node[T]) Next() *Node[T] {
+	return node.next
+}
+
+// Prev returns nil if there is no prev
+func (node *Node[T]) Prev() *Node[T] {
+	return node.prev
+}

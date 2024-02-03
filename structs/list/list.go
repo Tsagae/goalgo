@@ -108,13 +108,14 @@ func (list *List[T]) IsEmpty() bool {
 
 func (list *List[T]) ToString() string {
 	var sb strings.Builder
-	iter := list.Iterator()
+	node := list.head
 	sb.WriteString("[")
-	for iter.HasNext() {
-		sb.WriteString(fmt.Sprintf("%v", iter.Next()))
-		if iter.HasNext() {
+	for node != nil {
+		sb.WriteString(fmt.Sprintf("%v", node.val))
+		if node.next != nil {
 			sb.WriteString(", ")
 		}
+		node = node.next
 	}
 	if sb.Len() == 1 {
 		return "[]"
