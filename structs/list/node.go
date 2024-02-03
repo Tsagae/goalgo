@@ -7,6 +7,10 @@ type Node[T any] struct {
 	list *List[T]
 }
 
+func (node *Node[T]) Value() T {
+	return node.val
+}
+
 func (node *Node[T]) AddBefore(val T) {
 	if node == node.list.head {
 		//prev is null (node is the head)
