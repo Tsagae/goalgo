@@ -59,7 +59,7 @@ func (m *MapSet[T]) ToSlice() []T {
 	return keys
 }
 
-// Merges two sets, returns the new set. The two original sets are modified in the process of merging them
+// Union Merges two sets, returns the new set. The two original sets are modified in the process of merging them
 func Union[T comparable](a MapSet[T], b MapSet[T]) MapSet[T] {
 	bigger := a
 	smaller := b

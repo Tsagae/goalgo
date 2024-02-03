@@ -14,12 +14,12 @@ func (q *Queue[T]) Enqueue(item T) {
 	q.innerList.AddLast(item)
 }
 
-// Result is undefined if called on empty queue
+// Dequeue Result is undefined if called on empty queue
 func (q *Queue[T]) Dequeue() T {
 	return q.innerList.Remove(0)
 }
 
-// Result is undefined if called on empty queue
+// Peek Result is undefined if called on empty queue
 func (q *Queue[T]) Peek() T {
 	return q.innerList.Get(0)
 }
