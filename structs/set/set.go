@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+type empty struct{}
+
 type Set[T comparable] interface {
 	Find(T) bool
 	Put(T)
@@ -15,14 +17,14 @@ type Set[T comparable] interface {
 }
 
 type MapSet[T comparable] struct {
-	innerMap map[T]bool
+	innerMap map[T]empty
 }
 
 //TODO: quickunion set implementation
 //TODO: iterator
 
 func NewMapSet[T comparable]() MapSet[T] {
-	return MapSet[T]{make(map[T]bool)}
+	return MapSet[T]{make(map[T]empty)}
 }
 
 func (m *MapSet[T]) Find(item T) bool {
@@ -31,7 +33,7 @@ func (m *MapSet[T]) Find(item T) bool {
 }
 
 func (m *MapSet[T]) Put(item T) {
-	m.innerMap[item] = true
+	m.innerMap[item] = empty{}
 }
 
 func (m *MapSet[T]) PutAll(items ...T) {
@@ -67,7 +69,7 @@ func Union[T comparable](a MapSet[T], b MapSet[T]) MapSet[T] {
 		bigger, smaller = smaller, bigger
 	}
 	for k := range smaller.innerMap {
-		bigger.innerMap[k] = true
+		bigger.innerMap[k] = empty{}
 	}
 	return bigger
 }
