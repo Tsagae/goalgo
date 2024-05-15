@@ -1,4 +1,11 @@
-package structs
+package set
+
+import (
+	"fmt"
+	"strings"
+)
+
+type empty struct{}
 
 type Set[T comparable] interface {
 	Find(T) bool
@@ -10,14 +17,14 @@ type Set[T comparable] interface {
 }
 
 type MapSet[T comparable] struct {
-	innerMap map[T]bool
+	innerMap map[T]empty
 }
 
 //TODO: quickunion set implementation
 //TODO: iterator
 
 func NewMapSet[T comparable]() MapSet[T] {
-	return MapSet[T]{make(map[T]bool)}
+	return MapSet[T]{make(map[T]empty)}
 }
 
 func (m *MapSet[T]) Find(item T) bool {
@@ -26,7 +33,7 @@ func (m *MapSet[T]) Find(item T) bool {
 }
 
 func (m *MapSet[T]) Put(item T) {
-	m.innerMap[item] = true
+	m.innerMap[item] = empty{}
 }
 
 func (m *MapSet[T]) PutAll(items ...T) {
@@ -54,7 +61,7 @@ func (m *MapSet[T]) ToSlice() []T {
 	return keys
 }
 
-// Merges two sets, returns the new set. The two original sets are modified in the process of merging them
+// Union Merges two sets, returns the new set. The two original sets are modified in the process of merging them
 func Union[T comparable](a MapSet[T], b MapSet[T]) MapSet[T] {
 	bigger := a
 	smaller := b
@@ -62,7 +69,25 @@ func Union[T comparable](a MapSet[T], b MapSet[T]) MapSet[T] {
 		bigger, smaller = smaller, bigger
 	}
 	for k := range smaller.innerMap {
-		bigger.innerMap[k] = true
+		bigger.innerMap[k] = empty{}
 	}
 	return bigger
+}
+
+func (m *MapSet[T]) ToString() string {
+	if m.Size() == 0 {
+		return "{}"
+	}
+	var sb strings.Builder
+	sb.WriteString("{ ")
+	i := 0
+	for k := range m.innerMap {
+		sb.WriteString(fmt.Sprintf("%v", k))
+		if i != m.Size()-1 {
+			sb.WriteString(", ")
+		}
+		i++
+	}
+	sb.WriteString(" }")
+	return sb.String()
 }

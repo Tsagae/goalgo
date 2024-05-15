@@ -1,4 +1,4 @@
-package structs
+package prioqueue
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -60,4 +60,45 @@ func TestPrioQueue_ChangePriority(t *testing.T) {
 		assert.Equal(t, v, queue.Dequeue())
 		assert.Equal(t, len(values)-i-1, queue.Size())
 	}
+}
+
+func TestPrioQueue_GetPriority(t *testing.T) {
+	values := []rune{'A', 'B', 'C', 'D', 'E'}
+	priorities := []int{3, 10, 2, 4, 3}
+	queue := NewPrioQueue[rune, int]()
+	for i, v := range values {
+		queue.Insert(v, priorities[i])
+	}
+
+	for i, v := range values {
+		p, err := queue.GetPriority(v)
+		assert.Nil(t, err)
+		assert.Equal(t, priorities[i], p)
+	}
+}
+
+func TestPrioQueue_ChangeValue(t *testing.T) {
+	values := []rune{'A', 'B', 'C', 'D', 'E'}
+	priorities := []int{3, 10, 2, 4, 3}
+	queue := NewPrioQueue[rune, int]()
+	for i, v := range values {
+		queue.Insert(v, priorities[i])
+	}
+
+	p, err := queue.GetPriority('A')
+	assert.Nil(t, err)
+	assert.Equal(t, 3, p)
+
+	_, err = queue.GetPriority('F')
+	assert.NotNil(t, err)
+
+	queue.ChangeValue('A', 'F')
+
+	_, err = queue.GetPriority('A')
+	assert.NotNil(t, err)
+
+	p, err = queue.GetPriority('F')
+	assert.Nil(t, err)
+	assert.Equal(t, 3, p)
+
 }

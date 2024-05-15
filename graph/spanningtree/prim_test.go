@@ -1,12 +1,12 @@
 package spanningtree
 
 import (
+	"github.com/tsagae/goalgo/structs/set"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tsagae/goalgo/graph"
 	"github.com/tsagae/goalgo/graph/undirected"
-	"github.com/tsagae/goalgo/structs"
 )
 
 func getGraph1() undirected.UndirectedMapGraph[string, int] {
@@ -58,7 +58,7 @@ type simpleEdge[T comparable, W graph.Weight] struct {
 	weight W
 }
 
-func checkEdge[T comparable, W graph.Weight](expected simpleEdge[T, W], actualEdgesSet structs.MapSet[simpleEdge[T, W]]) bool {
+func checkEdge[T comparable, W graph.Weight](expected simpleEdge[T, W], actualEdgesSet set.MapSet[simpleEdge[T, W]]) bool {
 	flippedExpected := simpleEdge[T, W]{expected.to, expected.from, expected.weight}
 	toRet := actualEdgesSet.Find(expected) || actualEdgesSet.Find(flippedExpected)
 	actualEdgesSet.Remove(expected)
@@ -73,7 +73,7 @@ func TestPrim1(t *testing.T) {
 	assert.Nil(t, err)
 	spanningTree := Prim(nodeA, -1)
 
-	simpleEdgesSet := structs.NewMapSet[simpleEdge[string, int]]()
+	simpleEdgesSet := set.NewMapSet[simpleEdge[string, int]]()
 
 	allEdgesFromTree := spanningTree.GetAllEdges()
 	for _, v := range allEdgesFromTree {
@@ -87,7 +87,7 @@ func TestPrim1(t *testing.T) {
 
 	spanningTree = Prim(nodeA, 3)
 
-	simpleEdgesSet = structs.NewMapSet[simpleEdge[string, int]]()
+	simpleEdgesSet = set.NewMapSet[simpleEdge[string, int]]()
 
 	allEdgesFromTree = spanningTree.GetAllEdges()
 	for _, v := range allEdgesFromTree {
@@ -107,7 +107,7 @@ func TestPrim2(t *testing.T) {
 	assert.Nil(t, err)
 	spanningTree := Prim(nodeA, 9)
 
-	simpleEdgesSet := structs.NewMapSet[simpleEdge[int, int]]()
+	simpleEdgesSet := set.NewMapSet[simpleEdge[int, int]]()
 
 	allEdgesFromTree := spanningTree.GetAllEdges()
 	for _, v := range allEdgesFromTree {
@@ -126,7 +126,7 @@ func TestPrim2(t *testing.T) {
 
 	spanningTree = Prim(nodeA, 9)
 
-	simpleEdgesSet = structs.NewMapSet[simpleEdge[int, int]]()
+	simpleEdgesSet = set.NewMapSet[simpleEdge[int, int]]()
 
 	allEdgesFromTree = spanningTree.GetAllEdges()
 	for _, v := range allEdgesFromTree {

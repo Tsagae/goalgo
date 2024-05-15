@@ -2,7 +2,8 @@ package pathfinding
 
 import (
 	"github.com/tsagae/goalgo/graph"
-	"github.com/tsagae/goalgo/structs"
+	"github.com/tsagae/goalgo/structs/prioqueue"
+	"github.com/tsagae/goalgo/structs/set"
 	"slices"
 )
 
@@ -10,8 +11,8 @@ import (
 func Dijkstra[T comparable, W graph.Weight](start graph.Node[T, W], target graph.Node[T, W]) ([]graph.Node[T, W], map[T]W) {
 	distances := make(map[T]W)
 	previous := make(map[T]graph.Node[T, W])
-	visited := structs.NewMapSet[T]()
-	queue := structs.NewPrioQueue[graph.Node[T, W], W]()
+	visited := set.NewMapSet[T]()
+	queue := prioqueue.NewPrioQueue[graph.Node[T, W], W]()
 	var zeroValue W
 
 	distances[start.GetLabel()] = zeroValue

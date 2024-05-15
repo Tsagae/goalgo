@@ -7,7 +7,7 @@ Now reworked with generics and interfaces!
 ## Data Structures
 
 - Binary Tree
-- Linked List
+- Linked List (doubly linked)
 - Stack
 - Queue
 - Priority Queue (Heap)

@@ -1,8 +1,13 @@
-package structs
+package prioqueue
 
-import "cmp"
+import (
+	"cmp"
+	"fmt"
+	"strings"
+)
 
-// Priority queue implemented with an heap. Lowest number -> highest priority
+// PrioQueue Priority queue implemented with a heap. Lowest number -> highest priority.
+// Admits duplicates for both priorities and items
 type PrioQueue[T comparable, P cmp.Ordered] struct {
 	heap []prioQueueItem[T, P]
 }
@@ -15,8 +20,6 @@ type prioQueueItem[T comparable, P cmp.Ordered] struct {
 func NewPrioQueue[T comparable, P cmp.Ordered]() PrioQueue[T, P] {
 	return PrioQueue[T, P]{heap: make([]prioQueueItem[T, P], 0)}
 }
-
-//size enqueue dequeue peek
 
 func (q *PrioQueue[T, P]) Size() int {
 	return len(q.heap)
@@ -32,7 +35,7 @@ func (q *PrioQueue[T, P]) Insert(item T, priority P) {
 	q.reorderFromBottom(q.Size() - 1)
 }
 
-// Removes and returns the item with the highest priority
+// Dequeue Removes and returns the item with the highest priority
 func (q *PrioQueue[T, P]) Dequeue() T {
 	itemToRet := q.heap[0].item
 	q.heap[0], q.heap[q.Size()-1] = q.heap[q.Size()-1], q.heap[0]
@@ -57,11 +60,12 @@ func (q *PrioQueue[T, P]) Remove(priority P) T {
 	return itemToRet
 }
 
+// Peek Returns the item with the highest priority
 func (q *PrioQueue[T, P]) Peek() T {
 	return q.heap[0].item
 }
 
-// If the item is not found is added to the priority list
+// ChangePriority If the item is not found is added to the priority list
 func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
 	itemIndex := -1
 	var foundItem *prioQueueItem[T, P]
@@ -84,6 +88,41 @@ func (q *PrioQueue[T, P]) ChangePriority(item T, newPriority P) {
 	} else {
 		q.reorderFromBottom(itemIndex)
 	}
+}
+
+// GetPriority Returns the priority of the specified item.
+// If there are duplicates returns one of them with no guarantees about which item is retrieved
+func (q *PrioQueue[T, P]) GetPriority(item T) (P, error) {
+	for _, v := range q.heap {
+		if v.item == item {
+			return v.priority, nil
+		}
+	}
+	var p P
+	return p, fmt.Errorf("item %v not found", item)
+}
+
+// ChangeValue Changes the value of an element of the queue. Does nothing if the element is not found
+func (q *PrioQueue[T, P]) ChangeValue(toChange T, newValue T) {
+	for i, v := range q.heap {
+		if v.item == toChange {
+			q.heap[i].item = newValue
+		}
+	}
+}
+
+// String Elements are not guaranteed to be in order of priority
+func (q *PrioQueue[T, P]) String() string {
+	var sb strings.Builder
+	if q.IsEmpty() {
+		return "[]"
+	}
+	sb.WriteString("[")
+	for _, v := range q.heap {
+		sb.WriteString(fmt.Sprintf(" {v:%v p:%v}", v.item, v.priority))
+	}
+	sb.WriteString(" ]")
+	return sb.String()
 }
 
 func (q *PrioQueue[T, P]) reorderRootIterative(index int) {
@@ -139,7 +178,7 @@ func getIndexParent(index int) int {
 
 func (q *PrioQueue[T, P]) reorderFromBottom(index int) {
 	for {
-		var lowerIndex int = index
+		lowerIndex := index
 		lowerIndex = getIndexParent(index)
 		if lowerIndex < 0 {
 			return

@@ -4,7 +4,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/tsagae/goalgo/graph"
 	"github.com/tsagae/goalgo/graph/directed"
-	"github.com/tsagae/goalgo/structs"
+	"github.com/tsagae/goalgo/structs/set"
 	"testing"
 )
 
@@ -53,11 +53,11 @@ func getTestDirectedMapGraph() directed.DirectedMapGraph[string, int] {
 
 func TestDFS(t *testing.T) {
 	g := getTestDirectedMapGraph()
-	visited := structs.NewMapSet[string]()
+	visited := set.NewMapSet[string]()
 	firstNode, err := g.GetNode("a")
 	assert.Equal(t, nil, err)
 
-	testVisited := structs.NewMapSet[string]()
+	testVisited := set.NewMapSet[string]()
 	testVisitedPtr := &testVisited
 
 	DFS(firstNode, &visited, func(node graph.Node[string, int]) {
@@ -76,11 +76,11 @@ func TestBFS(t *testing.T) {
 	firstNode, err := g.GetNode("a")
 	assert.Equal(t, nil, err)
 
-	testVisited := structs.NewMapSet[string]()
+	testVisited := set.NewMapSet[string]()
 	testVisitedPtr := &testVisited
 
-	BFS(firstNode, func(node graph.Node[string, int]) {
-		testVisitedPtr.Put(node.GetLabel())
+	BFS(firstNode, func(nodeA graph.Node[string, int], nodeB graph.Node[string, int]) {
+		testVisitedPtr.Put(nodeA.GetLabel())
 	})
 
 	assert.Equal(t, true, testVisited.Find("a"))

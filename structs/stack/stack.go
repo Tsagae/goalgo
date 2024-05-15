@@ -1,6 +1,9 @@
-package structs
+package stack
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type Stack[T any] struct {
 	innerStack []T
@@ -33,9 +36,11 @@ func (stack *Stack[T]) Peek() T {
 }
 
 func (stack *Stack[T]) ToString() string {
-	var outStr string = "| "
+	var sb strings.Builder
+	sb.WriteString("| ")
 	for _, v := range stack.innerStack {
-		outStr += fmt.Sprintf("%v ", v)
+		sb.WriteString(fmt.Sprintf("%v ", v))
 	}
-	return outStr + "<- Top"
+	sb.WriteString("<- Top")
+	return sb.String()
 }

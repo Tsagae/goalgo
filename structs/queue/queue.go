@@ -1,23 +1,25 @@
-package structs
+package queue
+
+import "github.com/tsagae/goalgo/structs/list"
 
 type Queue[T any] struct {
-	innerList LinkedList[T]
+	innerList list.List[T]
 }
 
 func NewQueue[T any]() Queue[T] {
-	return Queue[T]{NewLinkedList[T]()}
+	return Queue[T]{list.NewList[T]()}
 }
 
 func (q *Queue[T]) Enqueue(item T) {
-	q.innerList.Add(item)
+	q.innerList.AddLast(item)
 }
 
-// Result is undefined if called on empty queue
+// Dequeue Result is undefined if called on empty queue
 func (q *Queue[T]) Dequeue() T {
 	return q.innerList.Remove(0)
 }
 
-// Result is undefined if called on empty queue
+// Peek Result is undefined if called on empty queue
 func (q *Queue[T]) Peek() T {
 	return q.innerList.Get(0)
 }
